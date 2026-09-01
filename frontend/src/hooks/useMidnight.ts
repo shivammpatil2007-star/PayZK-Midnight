@@ -27,9 +27,9 @@ export const useMidnight = () => {
       
       const state = await enabledWallet.state();
       
-      // Strict validation of the Preview Network
-      if (state.networkId !== 'preview') {
-        throw new Error(`Connected to ${state.networkId} network, but this dApp requires the preview network.`);
+      // Strict validation of the Preview/Preprod Network
+      if (state.networkId !== 'preview' && state.networkId !== 'preprod') {
+        throw new Error(`Connected to ${state.networkId} network, but this dApp requires the preview or preprod network.`);
       }
 
       setWallet(enabledWallet);
