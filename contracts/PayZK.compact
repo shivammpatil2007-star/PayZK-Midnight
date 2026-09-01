@@ -1,0 +1,46 @@
+// PUBLIC VS PRIVATE DATA SPLIT
+// ============================
+// Public (On-Chain State):
+// - latest_verified_user: The public key/ID of the last user who verified their credentials.
+// - latest_target_met: The exact threshold (target) that was met.
+// - is_income_verified: A boolean-equivalent (Uint<32> where 1=true, 0=false) flag.
+// 
+// Private (Witness Data):
+// - salary: The exact salary amount of the user (never revealed).
+// - target: The target threshold the user is trying to prove they meet.
+// - tenure: The exact number of months the user has been employed.
+// 
+// Note: We use disclose() to deliberately reveal the 'target' witness so that the 
+// on-chain state can record the exact threshold met without exposing the raw salary.
+
+import CompactStandardLibrary;
+
+export ledger latest_verified_user: Bytes<32>;
+export ledger latest_target_met: Uint<32>;
+export ledger is_income_verified: Uint<32>;
+
+constructor(initial_user: Bytes<32>) {
+    latest_verified_user = disclose(initial_user);
+    latest_target_met = 0 as Uint<32>;
+    is_income_verified = 0 as Uint<32>;
+}
+
+witness local_salary(): Uint<32>;
+witness local_target(): Uint<32>;
+witness local_tenure(): Uint<32>;
+
+export circuit prove_income_threshold(user_key: Bytes<32>): [] {
+    assert(local_salary() >= local_target(), "Salary does not meet the required threshold");
+    
+    // Meaningfully disclose the target to store it publicly
+    latest_verified_user = disclose(user_key);
+    latest_target_met = disclose(local_target());
+    is_income_verified = 1 as Uint<32>;
+}
+
+export circuit prove_employment_tenure(user_key: Bytes<32>, target_months: Uint<32>): [] {
+    assert(local_tenure() >= target_months, "Tenure does not meet the required months");
+    
+    latest_verified_user = disclose(user_key);
+    latest_target_met = disclose(target_months);
+}
