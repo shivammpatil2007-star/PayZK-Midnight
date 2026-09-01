@@ -1,0 +1,7 @@
+node_modules
+dist
+managed
+.midnight-state.json
+.midnight-wallet-state/
+*.env.local
+.env

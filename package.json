@@ -1,0 +1,33 @@
+{
+  "name": "payzk",
+  "version": "1.0.0",
+  "description": "PayZK: Confidential Income & Employment Verification Protocol",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "compact:compile": "compact compile",
+    "deploy": "tsx src/deploy.ts",
+    "frontend:dev": "npm run dev --prefix frontend",
+    "frontend:build": "npm run build --prefix frontend"
+  },
+  "dependencies": {
+    "@midnight-ntwrk/compact-runtime": "^0.19.0",
+    "@midnight-ntwrk/dapp-connector-api": "^4.0.1",
+    "@midnight-ntwrk/ledger": "^4.0.0",
+    "@midnight-ntwrk/midnight-js": "^4.1.1",
+    "@midnight-ntwrk/wallet-api": "^5.0.0",
+    "@midnight-ntwrk/zswap": "^4.0.0",
+    "pino": "^10.3.1",
+    "rxjs": "^7.8.2"
+  },
+  "devDependencies": {
+    "@midnight-ntwrk/midnight-js-testing": "^2.0.2",
+    "@types/node": "^26.4.0",
+    "tsx": "^4.23.13",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.11"
+  }
+}
