@@ -4,7 +4,7 @@ import { Sidebar } from './components/Sidebar';
 import { Header } from './components/Header';
 import { ProofStudio } from './components/ProofStudio';
 import { VerifierSuite } from './components/VerifierSuite';
-// import { AuditLedger } from './components/AuditLedger';
+import { AuditLedger } from './components/AuditLedger';
 
 function App() {
   const { wallet, address, error, isMockMode, connect } = useMidnight();
@@ -45,7 +45,7 @@ function App() {
             
             {currentView === 'employee' && <ProofStudio wallet={wallet} />}
             {currentView === 'verifier' && <VerifierSuite />}
-            {/* {currentView === 'audit' && <AuditLedger />} */}
+            {currentView === 'audit' && <AuditLedger />}
           </div>
         </main>
       </div>
