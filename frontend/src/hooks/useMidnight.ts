@@ -1,29 +1,40 @@
 import { useState } from 'react';
-// Replaced DAppConnectorWalletAPI with any due to versioning changes
 
 export const useMidnight = () => {
   const [wallet, setWallet] = useState<any>(null);
   const [address, setAddress] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [isMockMode, setIsMockMode] = useState<boolean>(false);
+
+  const getLaceProvider = () => {
+    const w = window as any;
+    return w.midnight?.lace || w.midnight?.mnLace || w.cardano?.lace;
+  };
 
   const connect = async () => {
     try {
       setError(null);
+      setIsMockMode(false);
       
-      const midnight = (window as any).midnight;
-      if (!midnight) {
-        throw new Error("No Midnight wallet extension found. Please install Lace or 1AM wallet.");
+      const provider = getLaceProvider();
+      
+      if (!provider) {
+        console.warn("No Midnight wallet extension found. Falling back to Demo/Simulation mode.");
+        // Mock Wallet Mode
+        setWallet({ mock: true });
+        setAddress("mn_addr_mock_1a2b3c4d5e6f7g8h9i0j");
+        setIsMockMode(true);
+        return;
       }
 
-      // Discover wallets
-      const wallets = Object.values(midnight) as any[];
-      if (wallets.length === 0) {
-        throw new Error("No Midnight wallets available.");
+      // We have a real provider
+      let enabledWallet;
+      if (typeof provider.enable === 'function') {
+        enabledWallet = await provider.enable();
+      } else {
+        // Some newer API versions might not require .enable() or use a different flow
+        enabledWallet = provider;
       }
-
-      // We just pick the first available wallet, typically Lace or 1AM
-      const walletProvider = wallets[0];
-      const enabledWallet = await walletProvider.enable();
       
       const state = await enabledWallet.state();
       
@@ -45,7 +56,8 @@ export const useMidnight = () => {
     setWallet(null);
     setAddress(null);
     setError(null);
+    setIsMockMode(false);
   };
 
-  return { wallet, address, error, connect, disconnect, setError };
+  return { wallet, address, error, isMockMode, connect, disconnect, setError };
 };
