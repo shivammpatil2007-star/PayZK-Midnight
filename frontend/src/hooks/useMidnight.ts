@@ -62,36 +62,46 @@ export const useMidnight = () => {
 
       // Check if it's the new Midnight DApp Connector API
       let connectedAPI;
-      let userAddress;
+      let userAddress = 'Connected (Unknown Address)';
       
-      if (typeof provider.connect === 'function') {
-        // Try preview first, fallback to preprod if needed, but connect to what user wants
-        // If VITE_NETWORK is set, we use it, otherwise preview
-        const network = import.meta.env.VITE_NETWORK || 'preview';
-        connectedAPI = await provider.connect(network);
-        
+      try {
+        if (typeof provider.connect === 'function') {
+          // Try preview first, fallback to preprod if needed, but connect to what user wants
+          const network = import.meta.env.VITE_NETWORK || 'preview';
+          connectedAPI = await provider.connect(network);
+          
+          if (connectedAPI && typeof connectedAPI.getUnshieldedAddress === 'function') {
+            const { unshieldedAddress } = await connectedAPI.getUnshieldedAddress();
+            userAddress = unshieldedAddress;
+          }
+        } else if (typeof provider.enable === 'function') {
+          connectedAPI = await provider.enable();
+        } else {
+          connectedAPI = provider;
+        }
+      } catch (firstErr: any) {
+        console.warn("Primary connection method failed, attempting fallback...", firstErr);
+        // Fallback for wallets where .connect() exists but is buggy (e.g. throws "enabledWallet.state is not a function")
+        if (typeof provider.enable === 'function') {
+          connectedAPI = await provider.enable();
+        } else {
+          throw firstErr;
+        }
+      }
+
+      // Final attempt to get address if it wasn't fetched yet
+      if (userAddress === 'Connected (Unknown Address)') {
         try {
-          const { unshieldedAddress } = await connectedAPI.getUnshieldedAddress();
-          userAddress = unshieldedAddress;
+          if (connectedAPI && typeof connectedAPI.getUnshieldedAddress === 'function') {
+            const { unshieldedAddress } = await connectedAPI.getUnshieldedAddress();
+            userAddress = unshieldedAddress;
+          } else if (connectedAPI && typeof connectedAPI.state === 'function') {
+             const state = await connectedAPI.state();
+             userAddress = state.address || userAddress;
+          }
         } catch (e) {
           console.warn("Could not get unshielded address", e);
-          userAddress = 'Connected';
         }
-      } else if (typeof provider.enable === 'function') {
-        // Fallback for older CIP-30 style wallets
-        connectedAPI = await provider.enable();
-        if (typeof connectedAPI.state === 'function') {
-           const state = await connectedAPI.state();
-           userAddress = state.address;
-           
-           if (state.networkId !== 'preview' && state.networkId !== 'preprod') {
-             throw new Error(`Connected to ${state.networkId} network, but this dApp requires preview or preprod.`);
-           }
-        }
-      } else {
-        // Unknown provider type
-        connectedAPI = provider;
-        userAddress = "Connected (Unknown Address)";
       }
 
       setWallet(connectedAPI);
