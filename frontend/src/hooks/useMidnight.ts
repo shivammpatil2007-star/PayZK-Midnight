@@ -85,12 +85,11 @@ export const useMidnight = () => {
           if (typeof provider.enable === 'function') {
             connectedAPI = await provider.enable();
           } else {
-            throw firstErr;
+            // Do NOT throw firstErr! The wallet might be corrupted but we still want to bypass the crash.
+            connectedAPI = provider;
           }
         } catch (secondErr: any) {
           console.error("Both connect() and enable() failed. Wallet extension might be corrupted or already connected.", secondErr);
-          // Instead of throwing and showing a red error box, we assume the provider might ALREADY be the connected API,
-          // or we just gracefully use the provider so the app doesn't block.
           connectedAPI = provider;
         }
       }
