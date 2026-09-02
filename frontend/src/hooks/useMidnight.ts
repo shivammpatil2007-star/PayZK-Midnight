@@ -29,10 +29,18 @@ export const useMidnight = () => {
       setError(null);
       setIsMockMode(false);
       
-      const provider = getWalletProvider();
+      let provider = getWalletProvider();
+      
+      // Retry polling for 2 seconds (4 attempts) if provider not found immediately
+      let attempts = 0;
+      while (!provider && attempts < 4) {
+        await new Promise(r => setTimeout(r, 500));
+        provider = getWalletProvider();
+        attempts++;
+      }
       
       if (!provider) {
-        console.warn("No Midnight wallet extension found. Falling back to Demo/Simulation mode.");
+        console.warn("No Midnight wallet extension found after polling. Falling back to Demo/Simulation mode.");
         // Mock Wallet Mode
         setWallet({ mock: true });
         setAddress("mn_addr_mock_1a2b3c4d5e6f7g8h9i0j");
@@ -40,24 +48,42 @@ export const useMidnight = () => {
         return;
       }
 
-      // We have a real provider
-      let enabledWallet;
-      if (typeof provider.enable === 'function') {
-        enabledWallet = await provider.enable();
+      // Check if it's the new Midnight DApp Connector API
+      let connectedAPI;
+      let userAddress;
+      
+      if (typeof provider.connect === 'function') {
+        // Try preview first, fallback to preprod if needed, but connect to what user wants
+        // If VITE_NETWORK is set, we use it, otherwise preview
+        const network = import.meta.env.VITE_NETWORK || 'preview';
+        connectedAPI = await provider.connect(network);
+        
+        try {
+          const { unshieldedAddress } = await connectedAPI.getUnshieldedAddress();
+          userAddress = unshieldedAddress;
+        } catch (e) {
+          console.warn("Could not get unshielded address", e);
+          userAddress = 'Connected';
+        }
+      } else if (typeof provider.enable === 'function') {
+        // Fallback for older CIP-30 style wallets
+        connectedAPI = await provider.enable();
+        if (typeof connectedAPI.state === 'function') {
+           const state = await connectedAPI.state();
+           userAddress = state.address;
+           
+           if (state.networkId !== 'preview' && state.networkId !== 'preprod') {
+             throw new Error(`Connected to ${state.networkId} network, but this dApp requires preview or preprod.`);
+           }
+        }
       } else {
-        // Some newer API versions might not require .enable() or use a different flow
-        enabledWallet = provider;
-      }
-      
-      const state = await enabledWallet.state();
-      
-      // Strict validation of the Preview/Preprod Network
-      if (state.networkId !== 'preview' && state.networkId !== 'preprod') {
-        throw new Error(`Connected to ${state.networkId} network, but this dApp requires the preview or preprod network.`);
+        // Unknown provider type
+        connectedAPI = provider;
+        userAddress = "Connected (Unknown Address)";
       }
 
-      setWallet(enabledWallet);
-      setAddress(state.address);
+      setWallet(connectedAPI);
+      setAddress(userAddress);
 
     } catch (err: any) {
       console.error(err);
