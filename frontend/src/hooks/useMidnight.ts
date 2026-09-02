@@ -8,20 +8,32 @@ export const useMidnight = () => {
 
   const getWalletProvider = () => {
     const w = window as any;
+    
+    // 1. Check window.midnight (Native Midnight Wallets)
     if (w.midnight) {
-      // Check known providers first
       if (w.midnight['1am']) return w.midnight['1am'];
       if (w.midnight.nightly) return w.midnight.nightly;
       if (w.midnight.lace) return w.midnight.lace;
       if (w.midnight.mnLace) return w.midnight.mnLace;
       
-      // Fallback to the first available injected Midnight wallet
-      const keys = Object.keys(w.midnight);
-      if (keys.length > 0) return w.midnight[keys[0]];
+      const midnightKeys = Object.keys(w.midnight);
+      if (midnightKeys.length > 0) return w.midnight[midnightKeys[0]];
     }
     
-    // Check CIP-30 fallback
-    return w.cardano?.lace;
+    // 2. Check window.cardano (CIP-30 compatible wallets that might support Midnight)
+    if (w.cardano) {
+      if (w.cardano['1am']) return w.cardano['1am'];
+      if (w.cardano.nightly) return w.cardano.nightly;
+      if (w.cardano.lace) return w.cardano.lace;
+      if (w.cardano.nami) return w.cardano.nami;
+      
+      // We don't blindly return the first cardano wallet because it might not support Midnight
+    }
+    
+    // 3. Fallback for generic CIP-30 / other injections
+    if (w['1am']) return w['1am']; // Sometimes injected at top level
+    
+    return null;
   };
 
   const connect = async () => {
@@ -86,8 +98,15 @@ export const useMidnight = () => {
       setAddress(userAddress);
 
     } catch (err: any) {
-      console.error(err);
-      setError(err.message || 'Failed to connect to wallet');
+      console.error("Wallet connection error:", err);
+      // Detailed error reporting
+      const msg = err.message || typeof err === 'string' ? err : JSON.stringify(err);
+      setError(`Wallet Error: ${msg}`);
+      
+      // Fallback to mock mode on error so they aren't completely blocked
+      setWallet({ mock: true });
+      setAddress("mn_addr_mock_error_fallback");
+      setIsMockMode(true);
     }
   };
 
