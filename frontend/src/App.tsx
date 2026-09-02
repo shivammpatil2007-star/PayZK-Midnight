@@ -1,35 +1,54 @@
+import { useState, useEffect } from 'react';
 import { useMidnight } from './hooks/useMidnight';
-import { WalletConnect } from './components/WalletConnect';
+import { Sidebar } from './components/Sidebar';
+import { Header } from './components/Header';
 import { ProofStudio } from './components/ProofStudio';
 import { VerifierSuite } from './components/VerifierSuite';
+// import { AuditLedger } from './components/AuditLedger';
 
 function App() {
-  const { wallet, error } = useMidnight();
+  const { wallet, address, error, isMockMode, connect } = useMidnight();
+  const [currentView, setCurrentView] = useState('overview');
+
+  useEffect(() => {
+    connect();
+  }, []); // Connect on mount
 
   return (
-    <div className="app-container">
-      <header className="header fade-in">
-        <div className="logo">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="url(#paint0_linear)"/>
-            <path d="M2 17L12 22L22 17" stroke="url(#paint0_linear)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M2 12L12 17L22 12" stroke="url(#paint0_linear)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            <defs>
-              <linearGradient id="paint0_linear" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#8a2be2"/>
-                <stop offset="1" stopColor="#00ffff"/>
-              </linearGradient>
-            </defs>
-          </svg>
-          <span className="text-gradient">PayZK Protocol</span>
-        </div>
-        <WalletConnect wallet={wallet} error={error} />
-      </header>
-
-      <main className="dashboard-grid">
-        <ProofStudio wallet={wallet} />
-        <VerifierSuite />
-      </main>
+    <div className="flex h-screen overflow-hidden bg-slate-950">
+      <Sidebar currentView={currentView} setCurrentView={setCurrentView} />
+      
+      <div className="flex-1 flex flex-col relative overflow-hidden">
+        <Header wallet={wallet} address={address} error={error} isMockMode={isMockMode} />
+        
+        <main className="flex-1 overflow-y-auto p-8">
+          <div className="max-w-6xl mx-auto">
+            {currentView === 'overview' && (
+              <div className="glass-panel p-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <h2 className="text-2xl font-bold mb-6">Welcome to PayZK</h2>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="bg-white/5 border border-white/10 rounded-xl p-6">
+                    <h3 className="text-gray-400 text-sm font-medium mb-2">Privacy Score</h3>
+                    <div className="text-4xl font-bold text-emerald-400">100%</div>
+                  </div>
+                  <div className="bg-white/5 border border-white/10 rounded-xl p-6">
+                    <h3 className="text-gray-400 text-sm font-medium mb-2">Total Proofs Issued</h3>
+                    <div className="text-4xl font-bold text-indigo-400">0</div>
+                  </div>
+                  <div className="bg-white/5 border border-white/10 rounded-xl p-6">
+                    <h3 className="text-gray-400 text-sm font-medium mb-2">Active Verifications</h3>
+                    <div className="text-4xl font-bold text-cyan-400">0</div>
+                  </div>
+                </div>
+              </div>
+            )}
+            
+            {currentView === 'employee' && <ProofStudio wallet={wallet} />}
+            {currentView === 'verifier' && <VerifierSuite />}
+            {/* {currentView === 'audit' && <AuditLedger />} */}
+          </div>
+        </main>
+      </div>
     </div>
   );
 }
