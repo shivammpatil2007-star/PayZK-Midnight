@@ -6,9 +6,10 @@ export const useMidnight = () => {
   const [error, setError] = useState<string | null>(null);
   const [isMockMode, setIsMockMode] = useState<boolean>(false);
 
-  const getLaceProvider = () => {
+  const getWalletProvider = () => {
     const w = window as any;
-    return w.midnight?.lace || w.midnight?.mnLace || w.cardano?.lace;
+    // Check for 1AM wallet first, then fallback to Lace
+    return w.midnight?.['1am'] || w.midnight?.lace || w.midnight?.mnLace || w.cardano?.lace;
   };
 
   const connect = async () => {
@@ -16,7 +17,7 @@ export const useMidnight = () => {
       setError(null);
       setIsMockMode(false);
       
-      const provider = getLaceProvider();
+      const provider = getWalletProvider();
       
       if (!provider) {
         console.warn("No Midnight wallet extension found. Falling back to Demo/Simulation mode.");
