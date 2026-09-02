@@ -1,34 +1,19 @@
 import React from 'react';
-import { useMidnight } from '../hooks/useMidnight';
 
-export const WalletConnect: React.FC<{
-  walletInfo: ReturnType<typeof useMidnight>
-}> = ({ walletInfo }) => {
-  const { wallet, address, error, connect, disconnect } = walletInfo;
+export const WalletConnect: React.FC<{ wallet: any | null, error: string | null }> = ({ wallet, error }) => {
+  if (error) {
+    return (
+      <div className="status-badge" style={{ borderColor: '#ff4757', color: '#ff4757' }}>
+        <div className="status-dot"></div>
+        {error}
+      </div>
+    );
+  }
 
   return (
-    <div className="wallet-connect">
-      {error && (
-        <div className="error-banner">
-          ⚠️ {error}
-        </div>
-      )}
-      
-      {!wallet ? (
-        <button onClick={connect} className="connect-btn">
-          Connect Midnight Wallet (Preview Network)
-        </button>
-      ) : (
-        <div className="connected-info">
-          <span className="network-badge">🟢 Preview Network</span>
-          <span className="address-badge">
-            {address?.slice(0, 8)}...{address?.slice(-8)}
-          </span>
-          <button onClick={disconnect} className="disconnect-btn">
-            Disconnect
-          </button>
-        </div>
-      )}
+    <div className={`status-badge ${wallet ? 'connected' : ''}`}>
+      <div className="status-dot"></div>
+      {wallet ? 'Connected to Preview' : 'Waiting for Wallet...'}
     </div>
   );
 };
