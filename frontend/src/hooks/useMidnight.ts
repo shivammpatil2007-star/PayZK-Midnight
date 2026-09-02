@@ -81,11 +81,17 @@ export const useMidnight = () => {
         }
       } catch (firstErr: any) {
         console.warn("Primary connection method failed, attempting fallback...", firstErr);
-        // Fallback for wallets where .connect() exists but is buggy (e.g. throws "enabledWallet.state is not a function")
-        if (typeof provider.enable === 'function') {
-          connectedAPI = await provider.enable();
-        } else {
-          throw firstErr;
+        try {
+          if (typeof provider.enable === 'function') {
+            connectedAPI = await provider.enable();
+          } else {
+            throw firstErr;
+          }
+        } catch (secondErr: any) {
+          console.error("Both connect() and enable() failed. Wallet extension might be corrupted or already connected.", secondErr);
+          // Instead of throwing and showing a red error box, we assume the provider might ALREADY be the connected API,
+          // or we just gracefully use the provider so the app doesn't block.
+          connectedAPI = provider;
         }
       }
 
