@@ -6,9 +6,10 @@ interface HeaderProps {
   address: string | null;
   error: string | null;
   isMockMode: boolean;
+  onConnect: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ wallet, address, error, isMockMode }) => {
+export const Header: React.FC<HeaderProps> = ({ wallet, address, error, isMockMode, onConnect }) => {
   return (
     <header className="h-20 border-b border-white/10 bg-white/5 backdrop-blur-md px-8 flex items-center justify-between sticky top-0 z-10">
       <div className="flex items-center gap-4">
@@ -20,7 +21,7 @@ export const Header: React.FC<HeaderProps> = ({ wallet, address, error, isMockMo
       </div>
       
       <div className="flex items-center gap-4">
-        <WalletConnect wallet={wallet} address={address} error={error} isMockMode={isMockMode} />
+        <WalletConnect wallet={wallet} address={address} error={error} isMockMode={isMockMode} onConnect={onConnect} />
       </div>
     </header>
   );

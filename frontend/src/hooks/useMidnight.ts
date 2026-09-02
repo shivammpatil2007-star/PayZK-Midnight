@@ -8,8 +8,20 @@ export const useMidnight = () => {
 
   const getWalletProvider = () => {
     const w = window as any;
-    // Check for 1AM wallet first, then fallback to Lace
-    return w.midnight?.['1am'] || w.midnight?.lace || w.midnight?.mnLace || w.cardano?.lace;
+    if (w.midnight) {
+      // Check known providers first
+      if (w.midnight['1am']) return w.midnight['1am'];
+      if (w.midnight.nightly) return w.midnight.nightly;
+      if (w.midnight.lace) return w.midnight.lace;
+      if (w.midnight.mnLace) return w.midnight.mnLace;
+      
+      // Fallback to the first available injected Midnight wallet
+      const keys = Object.keys(w.midnight);
+      if (keys.length > 0) return w.midnight[keys[0]];
+    }
+    
+    // Check CIP-30 fallback
+    return w.cardano?.lace;
   };
 
   const connect = async () => {

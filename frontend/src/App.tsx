@@ -15,11 +15,11 @@ function App() {
   }, []); // Connect on mount
 
   return (
-    <div className="flex h-screen overflow-hidden bg-slate-950">
+    <div className="flex h-screen overflow-hidden bg-[#090d16]">
       <Sidebar currentView={currentView} setCurrentView={setCurrentView} />
       
       <div className="flex-1 flex flex-col relative overflow-hidden">
-        <Header wallet={wallet} address={address} error={error} isMockMode={isMockMode} />
+        <Header wallet={wallet} address={address} error={error} isMockMode={isMockMode} onConnect={connect} />
         
         <main className="flex-1 overflow-y-auto p-8">
           <div className="max-w-6xl mx-auto">
