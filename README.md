@@ -1,65 +1,58 @@
-# PayZK: Confidential Income & Employment Verification Protocol
+# DGIS GeoAI Platform
+![CI/CD Pipeline](https://github.com/shivammpatil2007-star/PayZK-Midnight/actions/workflows/ci-cd.yml/badge.svg)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Preprod Deployment](https://img.shields.io/badge/Preprod-Live-success)
 
-![CI/CD](https://github.com/shivammpatil2007-star/PayZK-Midnight/actions/workflows/ci.yml/badge.svg)
+## 🌐 Product X (Twitter) Profile
+Follow our latest updates on X: [DGIS_GeoAI](https://x.com/DGIS_GeoAI)
 
-- **GitHub Repository:** https://github.com/shivammpatil2007-star/PayZK-Midnight
-- **Live dApp Demo:** `[PASTE_VERCEL_OR_NETLIFY_URL_HERE]`
-- **Product X Profile:** https://x.com/PayZK_Protocol
-- **Demo Video:** `[PASTE_LOOM_OR_YOUTUBE_LINK_HERE]`
+## 🚀 Live Preprod URL
+- **Frontend**: [https://dgis-geoai-frontend.vercel.app](https://dgis-geoai-frontend.vercel.app)
+- **Backend API**: [https://dgis-geoai-backend.onrender.com/health](https://dgis-geoai-backend.onrender.com/health)
 
-Traditional tenant screening, mortgage pre-approvals, and background checks require applicants to hand over raw pay stubs, bank statements, and tax returns. This exposes sensitive financial figures, heightens identity theft risks, and creates unauthorized data retention vulnerabilities. 
+*(Note: These are placeholders. Once automated deployment is fully configured via Vercel and Render, the live URLs will reflect the actual endpoints).*
 
-PayZK eliminates raw document disclosure by providing a zero-knowledge credential protocol built on Midnight. It enables individuals to cryptographically prove that their income satisfies a required threshold, aggregate earnings, and verify employment tenure without revealing exact salary numbers, bank balances, or personal identification details.
+## 🏗️ Features & Architecture
 
-## Smart Contract Deployment
+```mermaid
+graph LR
+    A[Next.js Frontend] -->|REST/WS| B[FastAPI Backend]
+    B --> C[Raster Processing]
+    B --> D[Change Detection]
+```
 
-- **Network:** Midnight Preview Testnet
-- **Deployed Contract ID:** `mn_addr_preview1zwxqm3yt970s99gvrn99gz3fzt7y8prazgl4k3twl6cmxrgwk0fsv2tprw`
-
-## Privacy Architecture
-
-| Data Point | State Type | Description |
-| :--- | :--- | :--- |
-| **Salary Amount** | Private Witness | Actual salary figure. Strictly isolated locally; NEVER leaves the user's device. |
-| **Employment Tenure** | Private Witness | Exact months employed. Remains entirely off-chain during ZK proof generation. |
-| **Threshold Met** | Public Ledger State | The target threshold (e.g., $50k) disclosed *only* after being proven met. |
-| **Verification Flag** | Public Ledger State | Boolean value (`1`/`0`) confirming successful cryptographic verification. |
-
-## Key Features
-- **Zero-Knowledge Income Verification:** A Compact smart contract circuit `prove_income_threshold` that verifies `salary >= target` locally without leaking the exact salary amount.
-- **Confidential Employment Tenure Proof:** The `prove_employment_tenure` circuit ensures an applicant has sufficient work history length without revealing start dates or exact months worked.
-- **Employee Proof Studio:** A React frontend where individuals can locally generate ZK proofs using their sensitive data. The inputs are never saved in React state, sent over a network, or persisted outside the runtime proving process.
-- **Verifier Validation Suite:** A dashboard for landlords, banks, and HR departments to check the on-chain verification boolean flags in a single click using the Midnight Indexer.
-
-## Local Setup & Usage Guide
+## 🛠️ Quickstart Guide
 
 ### Prerequisites
-- Windows users must run these commands inside **WSL (Ubuntu/Debian)**.
-- Node.js (v20+) and npm installed.
-- Docker and Docker Compose installed and running.
-- The `compact` compiler (v0.5.1) installed in your PATH (`~/.local/bin/compact`).
+- Node.js 18+
+- Python 3.10+
 
-### 1. Install Dependencies
+### Local Installation
+
+**Backend**
 ```bash
-npm install
-cd frontend && npm install
+cd backend
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
+uvicorn app.main:app --reload
 ```
 
-### 2. Compile the Smart Contract
-Generate the zero-knowledge circuits and contract management files:
-```bash
-wsl ~/.local/bin/compact compile contracts/PayZK.compact managed/payzk
-```
-
-### 3. Run the Frontend
-The frontend connects to the Midnight Preview Network and requires a compatible wallet (Lace or 1AM Wallet) set to `Preview`.
+**Frontend**
 ```bash
 cd frontend
+npm install
 npm run dev
 ```
 
-## Future Scope
-- Implement the `aggregate_multi_source_income` circuit to allow merging income from gig economy apps and traditional salaries.
-- Implement `verify_employer_signature` to cryptographically link the income data to an authorized employer's public key.
-- Enhance the UI to feature an HR Credential Issuer Portal and a personal Privacy Audit Log.
-- Path to Mainnet deployment with optimized tDUST gas fees.
+### Environment Variables
+Configure your environment variables using `.env.example` as a reference. Ensure `ALLOWED_ORIGINS` is set properly in your backend for CORS.
+
+## 📖 API Reference
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/search` | GET | Vector search mechanism |
+| `/api/change-detection` | GET | Raster processing and change detection |
+| `/ws/scan` | WS | Real-time scan via websocket |
+ 
