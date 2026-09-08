@@ -1,4 +1,4 @@
-import { PayZKContract } from '../managed/payzk/contract/index.js';
+// import { PayZKContract } from '../managed/payzk/contract/index.js';
 // To deploy on Midnight preview, one would typically use @midnight-ntwrk/midnight-js 
 // alongside a funded wallet provider.
 // This is a minimal placeholder script that the student can fill with their 1AM wallet credentials.
