@@ -1,0 +1,20 @@
+name: Deploy Pipeline
+
+on:
+  push:
+    branches: [ "main", "staging" ]
+
+jobs:
+  deploy-preprod:
+    runs-on: ubuntu-latest
+    needs: []
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Trigger Frontend Vercel Deploy
+        run: echo "Triggering Vercel deployment for Next.js 14 frontend..."
+
+      - name: Trigger Backend Render Deploy
+        run: echo "Triggering Render deployment for FastAPI backend..."
+ 
