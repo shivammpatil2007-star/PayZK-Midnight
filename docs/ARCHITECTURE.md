@@ -9,3 +9,4 @@ We utilize an advanced vector search mechanism to enable rapid querying of spati
 ## Split-View Rendering Algorithm
 The Next.js 14 frontend implements a split-view rendering algorithm, comparing historical satellite imagery with live Raster processing results side-by-side. 
  
+  
