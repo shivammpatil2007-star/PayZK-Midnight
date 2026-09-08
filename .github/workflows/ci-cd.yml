@@ -7,53 +7,32 @@ on:
     branches: [ "main", "staging" ]
 
 jobs:
-  backend-checks:
+  frontend-ci:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Set up Python 3.10
-      uses: actions/setup-python@v5
-      with:
-        python-version: "3.10"
-        cache: 'pip'
-        
-    - name: Install Backend Dependencies
-      working-directory: ./backend
-      run: |
-        python -m pip install --upgrade pip
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-        
-    - name: Lint with flake8 and black
-      working-directory: ./backend
-      run: |
-        black --check app test_main.py
-        flake8 app test_main.py
-        
-    - name: Run Backend Tests
-      working-directory: ./backend
-      run: |
-        pytest
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - run: npm install
+      - run: npm run lint --if-present
+      - run: npm run build
 
-  frontend-checks:
+  backend-ci:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Set up Node.js 18+
-      uses: actions/setup-node@v4
-      with:
-        node-version: "18.x"
-        
-    - name: Install Frontend Dependencies
-      working-directory: ./frontend
-      run: npm install
-        
-    - name: Lint Frontend
-      working-directory: ./frontend
-      run: npm run lint --if-present
-        
-    - name: Build Frontend
-      working-directory: ./frontend
-      run: npm run build
- 
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - run: pip install --upgrade pip
+      - run: pip install -r requirements.txt
+      - run: black --check app test_main.py
+      - run: flake8 app test_main.py
+      - run: pytest
