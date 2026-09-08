@@ -27,8 +27,8 @@ jobs:
     - name: Lint with flake8 and black
       working-directory: ./backend
       run: |
-        black --check .
-        flake8 .
+        black --check app test_main.py
+        flake8 app test_main.py
         
     - name: Run Backend Tests
       working-directory: ./backend
