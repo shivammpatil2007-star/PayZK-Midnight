@@ -30,3 +30,4 @@ def change_detection():
 def ws_scan():
     return {"message": "Websocket Scan API placeholder"}
  
+  
