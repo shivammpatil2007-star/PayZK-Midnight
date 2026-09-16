@@ -13,7 +13,7 @@ Follow our latest updates on X: [PayZK_Midnight](https://x.com/PayZK_Midnight)
 
 ## 🚀 Live Preprod Deployment
 - **Frontend App**: [https://payzk-midnight-frontend.vercel.app](https://payzk-midnight-frontend.vercel.app) *(Update with your actual Vercel URL)*
-- **Midnight Contract Address**: `[INSERT_YOUR_DEPLOYED_CONTRACT_ADDRESS_HERE]`
+- **Midnight Contract Address**: `mn_addr_preview1zwxqm3yt970s99gvrn99gz3fzt7y8prazgl4k3twl6cmxrgwk0fsv2tprw`
 - **Demo Video**: [Watch the MVP Demo](https://youtube.com/...) *(Update with your actual demo video link)*
 
 ## 🏗️ Architecture
