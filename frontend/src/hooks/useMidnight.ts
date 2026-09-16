@@ -100,9 +100,20 @@ export const useMidnight = () => {
           if (connectedAPI && typeof connectedAPI.getUnshieldedAddress === 'function') {
             const { unshieldedAddress } = await connectedAPI.getUnshieldedAddress();
             userAddress = unshieldedAddress;
-          } else if (connectedAPI && typeof connectedAPI.state === 'function') {
-             const state = await connectedAPI.state();
-             userAddress = state.address || userAddress;
+          } else if (connectedAPI && connectedAPI.state$ && typeof connectedAPI.state$.subscribe === 'function') {
+            userAddress = await new Promise<string>((resolve) => {
+              const subscription = connectedAPI.state$.subscribe((state: any) => {
+                if (state && state.address) {
+                  resolve(state.address);
+                  setTimeout(() => subscription.unsubscribe(), 0);
+                }
+              });
+              // Timeout to prevent hanging if state doesn't emit immediately
+              setTimeout(() => {
+                subscription.unsubscribe();
+                resolve(userAddress);
+              }, 1500);
+            });
           }
         } catch (e) {
           console.warn("Could not get unshielded address", e);
@@ -115,7 +126,12 @@ export const useMidnight = () => {
     } catch (err: any) {
       console.error("Wallet connection error:", err);
       // Detailed error reporting
-      const msg = err.message || typeof err === 'string' ? err : JSON.stringify(err);
+      let msg = err.message || typeof err === 'string' ? err : JSON.stringify(err);
+      
+      if (msg.includes("Remote API with channel") && msg.includes("was shutdown")) {
+        msg = "Wallet extension connection was lost. Please refresh the page or restart your wallet extension.";
+      }
+      
       setError(`Wallet Error: ${msg}`);
       
       // Fallback to mock mode on error so they aren't completely blocked
