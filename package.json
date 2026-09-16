@@ -2,6 +2,9 @@
   "name": "payzk",
   "version": "1.0.0",
   "description": "PayZK: Confidential Income & Employment Verification Protocol",
+  "engines": {
+    "node": "22.x"
+  },
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
