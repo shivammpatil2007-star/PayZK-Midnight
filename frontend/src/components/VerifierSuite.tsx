@@ -1,3 +1,4 @@
+// Component: Verifier Suite
 import React, { useState } from 'react';
 import { SearchCode, FileKey2, CheckCircle2, ShieldAlert } from 'lucide-react';
 
