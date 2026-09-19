@@ -103,6 +103,19 @@ export const ProofStudio: React.FC<{ wallet: any | null }> = ({ wallet }) => {
                 className="w-full accent-emerald-500"
               />
             </div>
+            
+            <div className="space-y-4 pt-4 border-t border-white/5">
+              <div className="flex justify-between items-end">
+                <label className="text-sm font-medium text-emerald-400 uppercase tracking-wider flex items-center gap-2">
+                  <Lock size={16} /> Employer ID (Witness)
+                </label>
+              </div>
+              <input 
+                type="text" 
+                placeholder="e.g. EMP-12345"
+                className="input-field"
+              />
+            </div>
 
             <div className="space-y-4 pt-4 border-t border-white/5">
               <div className="flex justify-between items-end">
