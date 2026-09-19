@@ -15,7 +15,7 @@ function App() {
   }, []); // Connect on mount
 
   return (
-    <div className="flex h-screen overflow-hidden bg-[#090d16]">
+    <div className="flex h-screen overflow-hidden bg-slate-950">
       <Sidebar currentView={currentView} setCurrentView={setCurrentView} />
       
       <div className="flex-1 flex flex-col relative overflow-hidden">
