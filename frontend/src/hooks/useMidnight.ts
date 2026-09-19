@@ -54,7 +54,12 @@ export const useMidnight = () => {
       if (!provider) {
         console.warn("No Midnight wallet extension found after polling. Falling back to Demo/Simulation mode.");
         // Mock Wallet Mode
-        setWallet({ mock: true });
+        setWallet({ 
+          mock: true, 
+          enable: async () => ({ mock: true }), 
+          connect: async () => ({ mock: true }),
+          getUnshieldedAddress: async () => ({ unshieldedAddress: "mn_addr_mock_1a2b3c4d5e6f7g8h9i0j" })
+        });
         setAddress("mn_addr_mock_1a2b3c4d5e6f7g8h9i0j");
         setIsMockMode(true);
         return;
@@ -135,7 +140,12 @@ export const useMidnight = () => {
       setError(`Wallet Error: ${msg}`);
       
       // Fallback to mock mode on error so they aren't completely blocked
-      setWallet({ mock: true });
+      setWallet({ 
+        mock: true, 
+        enable: async () => ({ mock: true }), 
+        connect: async () => ({ mock: true }),
+        getUnshieldedAddress: async () => ({ unshieldedAddress: "mn_addr_mock_error_fallback" })
+      });
       setAddress("mn_addr_mock_error_fallback");
       setIsMockMode(true);
     }
