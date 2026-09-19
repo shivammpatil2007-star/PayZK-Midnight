@@ -1,22 +1,24 @@
-# PayZK: Confidential Income & Employment Verification
+# PayZK — Confidential Income & Employment Verification Protocol
 
-![CI/CD Pipeline](https://github.com/shivammpatil2007-star/PayZK-Midnight/actions/workflows/ci-cd.yml/badge.svg)
+![CI/CD Pipeline](https://github.com/shivammpatil2007-star/PayZK-Midnight/actions/workflows/ci.yml/badge.svg)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
-![Preprod Deployment](https://img.shields.io/badge/Preprod-Live-success)
+![Preprod Deployment](https://img.shields.io/badge/Midnight%20Preview%20/%20Preprod%20Testnet-Live-success)
 
 PayZK is a Zero-Knowledge Proof (ZKP) protocol built on the **Midnight Network**. It allows users to cryptographically prove their income meets specific thresholds, or that they meet certain employment tenure requirements, *without ever revealing their exact salary or start dates*. 
 
 By separating public on-chain state (verification status) from private witness data (actual salary), PayZK ensures absolute privacy for employees while providing unquestionable cryptographic guarantees to employers, landlords, or financial institutions.
 
 ## 🌐 Product X (Twitter) Profile
-Follow our latest updates on X: [PayZK_Midnight](https://x.com/PayZK_Midnight)
+Follow our latest updates on X: [Product X Profile](https://x.com/PayZK_Protocol)
 
 ## 🚀 Live Preprod Deployment
 - **Frontend App**: [https://payzk-midnight-frontend.vercel.app](https://payzk-midnight-frontend.vercel.app) *(Update with your actual Vercel URL)*
 - **Midnight Contract Address**: `mn_addr_preview1zwxqm3yt970s99gvrn99gz3fzt7y8prazgl4k3twl6cmxrgwk0fsv2tprw`
-- **Demo Video**: [Watch the MVP Demo](https://youtube.com/...) *(Update with your actual demo video link)*
+- **Demo Video**: [Watch PayZK Level 4 Demo Video](#)
 
-## 🏗️ Architecture
+## 🏗️ Architecture & Privacy Design
+
+Our architecture relies on a seamless interaction between local clients and the Midnight blockchain to ensure absolute privacy via zero-knowledge proofs.
 
 ```mermaid
 graph LR
@@ -66,7 +68,7 @@ Use the included deployment script to deploy the compiled contract to the Midnig
 ```bash
 npm run deploy
 ```
-*(Make sure to configure your `.env` with your `WALLET_SEED` before deploying).*
+*(Make sure to configure your `.env` based on the `.env.example` file with your `WALLET_SEED` before deploying).*
 
 ## 📖 Usage
 1. Connect your Midnight Wallet via the web interface.
