@@ -1,5 +1,6 @@
 # PayZK — Confidential Income & Employment Verification Protocol
 
+
 ![CI/CD Pipeline](https://github.com/shivammpatil2007-star/PayZK-Midnight/actions/workflows/ci.yml/badge.svg)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Preprod Deployment](https://img.shields.io/badge/Midnight%20Preview%20/%20Preprod%20Testnet-Live-success)
