@@ -1,4 +1,5 @@
-// import { PayZKContract } from '../managed/payzk/contract/index.js';
+// // Deployment Helper for PayZK on Midnight Testnet
+import { CompactCompile } from '@midnight-ntwrk/compact-compiler';
 // To deploy on Midnight preview, one would typically use @midnight-ntwrk/midnight-js 
 // alongside a funded wallet provider.
 // This is a minimal placeholder script that the student can fill with their 1AM wallet credentials.

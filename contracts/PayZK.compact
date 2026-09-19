@@ -13,6 +13,8 @@
 // Note: We use disclose() to deliberately reveal the 'target' witness so that the 
 // on-chain state can record the exact threshold met without exposing the raw salary.
 
+// PayZK Confidential Income Verification Contract
+pragma compact >= 0.1.0;
 import CompactStandardLibrary;
 
 export ledger latest_verified_user: Bytes<32>;

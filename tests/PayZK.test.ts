@@ -1,3 +1,4 @@
+// ZK Circuit Witness Generation Tests
 import { describe, it, expect } from 'vitest';
 // We simulate the imported contract behavior to keep tests isolated and 100% reliable 
 // without needing a local proving server running in the CI environment.
