@@ -9,6 +9,7 @@ import { OverviewMetrics } from './components/OverviewMetrics';
 function App() {
   const { wallet, address, error, isMockMode, connect } = useMidnight();
   const [currentView, setCurrentView] = useState('overview');
+  const [activeProofPayload, setActiveProofPayload] = useState<string | null>(null);
 
   useEffect(() => {
     connect();
@@ -30,8 +31,18 @@ function App() {
               </div>
             )}
             
-            {currentView === 'employee' && <ProofStudio wallet={wallet} />}
-            {currentView === 'verifier' && <VerifierSuite />}
+            {currentView === 'employee' && (
+              <ProofStudio 
+                wallet={wallet} 
+                setActiveProofPayload={setActiveProofPayload}
+                setCurrentView={setCurrentView}
+              />
+            )}
+            {currentView === 'verifier' && (
+              <VerifierSuite 
+                activeProofPayload={activeProofPayload}
+              />
+            )}
             {currentView === 'audit' && <AuditLedger />}
           </div>
         </main>

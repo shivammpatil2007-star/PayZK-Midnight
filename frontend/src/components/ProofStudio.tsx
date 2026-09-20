@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import { Lock, FileCheck2, Fingerprint } from 'lucide-react';
 
-export const ProofStudio: React.FC<{ wallet: any | null }> = ({ wallet }) => {
+export const ProofStudio: React.FC<{ 
+  wallet: any | null,
+  setActiveProofPayload: (payload: string | null) => void,
+  setCurrentView: (view: string) => void
+}> = ({ wallet, setActiveProofPayload, setCurrentView }) => {
   const [salary, setSalary] = useState<number>(5000);
   const [target, setTarget] = useState<number>(3000);
   const [isProving, setIsProving] = useState(false);
   const [proofData, setProofData] = useState<any>(null);
+  const [isCopied, setIsCopied] = useState(false);
 
   const handleProve = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -179,10 +184,27 @@ export const ProofStudio: React.FC<{ wallet: any | null }> = ({ wallet }) => {
                 </div>
 
                 <div className="flex gap-3 pt-4">
-                  <button className="flex-1 bg-white/5 hover:bg-white/10 text-white py-2 rounded-lg text-sm font-medium transition-colors border border-white/10">
-                    Copy Payload
+                  <button 
+                    onClick={() => {
+                      if (proofData) {
+                        navigator.clipboard.writeText(proofData.hash);
+                        setIsCopied(true);
+                        setTimeout(() => setIsCopied(false), 2000);
+                      }
+                    }}
+                    className="flex-1 bg-white/5 hover:bg-white/10 text-white py-2 rounded-lg text-sm font-medium transition-colors border border-white/10"
+                  >
+                    {isCopied ? '✓ Copied to Clipboard' : 'Copy Payload'}
                   </button>
-                  <button className="flex-1 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 py-2 rounded-lg text-sm font-medium transition-colors border border-emerald-500/30">
+                  <button 
+                    onClick={() => {
+                      if (proofData) {
+                        setActiveProofPayload(proofData.hash);
+                        setCurrentView('verifier');
+                      }
+                    }}
+                    className="flex-1 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 py-2 rounded-lg text-sm font-medium transition-colors border border-emerald-500/30"
+                  >
                     Verify On-Chain
                   </button>
                 </div>
