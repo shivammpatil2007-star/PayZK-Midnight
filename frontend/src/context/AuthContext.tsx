@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-type Role = 'Employee (Prover)' | 'Verifier (Institution)' | 'Employer (Issuer)' | null;
+export type Role = 'Employee (Prover)' | 'Verifier (Institution)' | 'Employer (Issuer)' | null;
 
 interface AuthContextType {
   isAuthenticated: boolean;
