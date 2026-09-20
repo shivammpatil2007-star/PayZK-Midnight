@@ -8,7 +8,7 @@ import { AuditLedger } from './components/AuditLedger';
 import { OverviewMetrics } from './components/OverviewMetrics';
 import { AuthProvider } from './context/AuthContext';
 function App() {
-  const { wallet, connect } = useMidnight();
+  const { wallet, address, error, isMockMode, connect } = useMidnight();
   const [currentView, setCurrentView] = useState('overview');
   const [activeProofPayload, setActiveProofPayload] = useState<string | null>(null);
 
@@ -23,6 +23,11 @@ function App() {
         
         <div className="flex-1 flex flex-col relative overflow-hidden">
           <Header 
+            wallet={wallet} 
+            address={address} 
+            error={error} 
+            isMockMode={isMockMode} 
+            onConnect={connect} 
             onNavigateHome={() => setCurrentView('overview')}
           />
         

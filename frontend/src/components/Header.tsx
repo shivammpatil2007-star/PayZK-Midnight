@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
 import { Logo } from './Logo';
+import { WalletConnect } from './WalletConnect';
 import { useAuth } from '../context/AuthContext';
 import { AuthModal } from './AuthModal';
 import { ProfileModal } from './ProfileModal';
 
 interface HeaderProps {
+  wallet: any;
+  address: string | null;
+  error: string | null;
+  isMockMode: boolean;
+  onConnect: () => void;
   onNavigateHome?: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ onNavigateHome }) => {
+export const Header: React.FC<HeaderProps> = ({ wallet, address, error, isMockMode, onConnect, onNavigateHome }) => {
   const { isAuthenticated, currentUser } = useAuth();
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -26,6 +32,10 @@ export const Header: React.FC<HeaderProps> = ({ onNavigateHome }) => {
       </div>
       
       <div className="flex items-center gap-4 relative">
+        <div className="hidden lg:block">
+          <WalletConnect wallet={wallet} address={address} error={error} isMockMode={isMockMode} onConnect={onConnect} />
+        </div>
+        
         {isAuthenticated && currentUser ? (
           <>
             <button 
