@@ -8,7 +8,7 @@ import { AuditLedger } from './components/AuditLedger';
 import { OverviewMetrics } from './components/OverviewMetrics';
 import { AuthModal } from './components/AuthModal';
 function App() {
-  const { wallet, address, error, isMockMode, isConnecting, connect } = useMidnight();
+  const { walletProvider, account, error, isMockMode, isConnecting, connectWallet } = useMidnight();
   const [currentView, setCurrentView] = useState('overview');
   const [activeProofPayload, setActiveProofPayload] = useState<string | null>(null);
 
@@ -19,7 +19,14 @@ function App() {
       <Sidebar currentView={currentView} setCurrentView={setCurrentView} />
       
       <div className="flex-1 flex flex-col relative overflow-hidden">
-        <Header wallet={wallet} address={address} error={error} isMockMode={isMockMode} isConnecting={isConnecting} onConnect={connect} />
+        <Header 
+          wallet={walletProvider} 
+          address={account} 
+          error={error} 
+          isMockMode={isMockMode} 
+          isConnecting={isConnecting} 
+          onConnect={connectWallet} 
+        />
         
         <main className="flex-1 overflow-y-auto p-8">
           <div className="max-w-6xl mx-auto">
@@ -32,7 +39,7 @@ function App() {
             
             {currentView === 'employee' && (
               <ProofStudio 
-                wallet={wallet} 
+                wallet={walletProvider} 
                 setActiveProofPayload={setActiveProofPayload}
                 setCurrentView={setCurrentView}
               />
@@ -48,7 +55,7 @@ function App() {
       </div>
 
       {/* Authentication Modal Popup */}
-      <AuthModal onConnectWallet={connect} />
+      <AuthModal onConnectWallet={connectWallet} />
     </div>
   );
 }

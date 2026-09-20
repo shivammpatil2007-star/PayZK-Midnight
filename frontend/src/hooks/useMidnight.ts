@@ -1,43 +1,34 @@
 import { useState } from 'react';
 
 export const useMidnight = () => {
-  const [wallet, setWallet] = useState<any>(null);
-  const [address, setAddress] = useState<string | null>(null);
+  const [walletProvider, setWalletProvider] = useState<any>(null); // Internal only
+  const [account, setAccount] = useState<string | null>(null);
+  const [isConnected, setIsConnected] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [isMockMode, setIsMockMode] = useState<boolean>(false);
   const [isConnecting, setIsConnecting] = useState<boolean>(false);
 
   const getWalletProvider = () => {
     const w = window as any;
-    
-    // 1. Check window.midnight (Native Midnight Wallets)
     if (w.midnight) {
       if (w.midnight['1am']) return w.midnight['1am'];
       if (w.midnight.nightly) return w.midnight.nightly;
       if (w.midnight.lace) return w.midnight.lace;
       if (w.midnight.mnLace) return w.midnight.mnLace;
-      
       const midnightKeys = Object.keys(w.midnight);
       if (midnightKeys.length > 0) return w.midnight[midnightKeys[0]];
     }
-    
-    // 2. Check window.cardano (CIP-30 compatible wallets that might support Midnight)
     if (w.cardano) {
       if (w.cardano['1am']) return w.cardano['1am'];
       if (w.cardano.nightly) return w.cardano.nightly;
       if (w.cardano.lace) return w.cardano.lace;
       if (w.cardano.nami) return w.cardano.nami;
-      
-      // We don't blindly return the first cardano wallet because it might not support Midnight
     }
-    
-    // 3. Fallback for generic CIP-30 / other injections
-    if (w['1am']) return w['1am']; // Sometimes injected at top level
-    
+    if (w['1am']) return w['1am'];
     return null;
   };
 
-  const connect = async () => {
+  const connectWallet = async () => {
     try {
       setError(null);
       setIsMockMode(false);
@@ -45,7 +36,6 @@ export const useMidnight = () => {
       
       let provider = getWalletProvider();
       
-      // Retry polling for 2 seconds (4 attempts) if provider not found immediately
       let attempts = 0;
       while (!provider && attempts < 4) {
         await new Promise(r => setTimeout(r, 500));
@@ -54,29 +44,23 @@ export const useMidnight = () => {
       }
       
       if (!provider) {
-        console.warn("No Midnight wallet extension found after polling. Falling back to Demo/Simulation mode.");
-        // Mock Wallet Mode
-        setWallet({ 
-          mock: true, 
-          enable: async () => ({ mock: true }), 
-          connect: async () => ({ mock: true }),
-          getUnshieldedAddress: async () => ({ unshieldedAddress: "mn_addr_mock_1a2b3c4d5e6f7g8h9i0j" })
-        });
-        setAddress("mn_addr_mock_1a2b3c4d5e6f7g8h9i0j");
+        console.warn("No Midnight wallet extension found. Falling back to Demo/Simulation mode.");
+        setWalletProvider({ mock: true, signData: async () => ({ signature: "0x" + Array.from({length: 64}, () => Math.floor(Math.random()*16).toString(16)).join('') }) });
+        const mockAddr = "mn_addr_preview1zwxqm3yt970s99gvrn99gz3fzt7y8prazgl4k3twl6cmxrgwk0fsv2tprw";
+        setAccount(mockAddr);
+        setIsConnected(true);
+        localStorage.setItem("payzk_wallet_connected", "true");
         setIsMockMode(true);
         return;
       }
 
-      // Check if it's the new Midnight DApp Connector API
       let connectedAPI;
       let userAddress = 'Connected (Unknown Address)';
       
       try {
         if (typeof provider.connect === 'function') {
-          // Try preview first, fallback to preprod if needed, but connect to what user wants
           const network = import.meta.env.VITE_NETWORK || 'preview';
           connectedAPI = await provider.connect(network);
-          
           if (connectedAPI && typeof connectedAPI.getUnshieldedAddress === 'function') {
             const { unshieldedAddress } = await connectedAPI.getUnshieldedAddress();
             userAddress = unshieldedAddress;
@@ -87,81 +71,32 @@ export const useMidnight = () => {
           connectedAPI = provider;
         }
       } catch (firstErr: any) {
-        console.warn("Primary connection method failed, attempting fallback...", firstErr);
-        try {
-          if (typeof provider.enable === 'function') {
-            connectedAPI = await provider.enable();
-          } else {
-            // Do NOT throw firstErr! The wallet might be corrupted but we still want to bypass the crash.
-            connectedAPI = provider;
-          }
-        } catch (secondErr: any) {
-          console.error("Both connect() and enable() failed. Wallet extension might be corrupted or already connected.", secondErr);
-          connectedAPI = provider;
-        }
+        console.warn("Primary connection method failed...", firstErr);
+        connectedAPI = provider; // bypass throw for corruption
       }
 
-      // Final attempt to get address if it wasn't fetched yet
-      if (userAddress === 'Connected (Unknown Address)') {
-        try {
-          if (connectedAPI && typeof connectedAPI.getUnshieldedAddress === 'function') {
-            const { unshieldedAddress } = await connectedAPI.getUnshieldedAddress();
-            userAddress = unshieldedAddress;
-          } else if (connectedAPI && connectedAPI.state$ && typeof connectedAPI.state$.subscribe === 'function') {
-            userAddress = await new Promise<string>((resolve) => {
-              const subscription = connectedAPI.state$.subscribe((state: any) => {
-                if (state && state.address) {
-                  resolve(state.address);
-                  setTimeout(() => subscription.unsubscribe(), 0);
-                }
-              });
-              // Timeout to prevent hanging if state doesn't emit immediately
-              setTimeout(() => {
-                subscription.unsubscribe();
-                resolve(userAddress);
-              }, 1500);
-            });
-          }
-        } catch (e) {
-          console.warn("Could not get unshielded address", e);
-        }
-      }
-
-      setWallet(connectedAPI);
-      setAddress(userAddress);
+      setWalletProvider(connectedAPI);
+      setAccount(userAddress);
+      setIsConnected(true);
+      localStorage.setItem("payzk_wallet_connected", "true");
 
     } catch (err: any) {
-      console.error("Wallet connection error:", err);
-      // Detailed error reporting
-      let msg = err.message || typeof err === 'string' ? err : JSON.stringify(err);
-      
-      if (msg.includes("Remote API with channel") && msg.includes("was shutdown")) {
-        msg = "Wallet extension connection was lost. Please refresh the page or restart your wallet extension.";
-      }
-      
-      setError(`Wallet Error: ${msg}`);
-      
-      // Fallback to mock mode on error so they aren't completely blocked
-      setWallet({ 
-        mock: true, 
-        enable: async () => ({ mock: true }), 
-        connect: async () => ({ mock: true }),
-        getUnshieldedAddress: async () => ({ unshieldedAddress: "mn_addr_mock_error_fallback" })
-      });
-      setAddress("mn_addr_mock_error_fallback");
-      setIsMockMode(true);
+      console.error("Wallet connection failed", err);
+      setError(`Wallet Error: ${err.message || String(err)}`);
     } finally {
       setIsConnecting(false);
     }
   };
 
-  const disconnect = () => {
-    setWallet(null);
-    setAddress(null);
+  const disconnectWallet = () => {
+    setWalletProvider(null);
+    setAccount(null);
+    setIsConnected(false);
     setError(null);
     setIsMockMode(false);
     setIsConnecting(false);
+    localStorage.removeItem("payzk_wallet_connected");
   };
 
-  return { wallet, address, error, isMockMode, isConnecting, connect, disconnect, setError };
+  return { walletProvider, account, isConnected, error, isMockMode, isConnecting, connectWallet, disconnectWallet, setError };
 };
