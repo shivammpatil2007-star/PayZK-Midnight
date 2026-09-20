@@ -10,6 +10,7 @@
 ---
 
 ## 📋 Table of Contents
+- [Submission Assets & Links](#-submission-assets--links)
 - [On-Chain Deployment & Telemetry](#-on-chain-deployment--telemetry)
 - [System Architecture & Privacy Flow](#-system-architecture--privacy-flow)
 - [Complete Application Integration Flow](#-complete-application-integration-flow)
@@ -17,7 +18,6 @@
 - [Compact ZK Circuit Specifications](#-compact-zk-circuit-specifications)
 - [Local Setup & Developer Guide](#-local-setup--developer-guide)
 - [Testing & CI/CD Pipeline](#-testing--cicd-pipeline)
-- [Submission Assets & Links](#-submission-assets--links)
 
 ---
 
