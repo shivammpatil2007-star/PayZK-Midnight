@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
-import { Logo } from './Logo';
+import React from 'react';
 import { WalletConnect } from './WalletConnect';
 import { useAuth } from '../context/AuthContext';
-import { AuthModal } from './AuthModal';
-import { ProfileModal } from './ProfileModal';
+import { UserCircle } from 'lucide-react';
 
 interface HeaderProps {
   wallet: any;
@@ -11,60 +9,49 @@ interface HeaderProps {
   error: string | null;
   isMockMode: boolean;
   onConnect: () => void;
-  onNavigateHome?: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ wallet, address, error, isMockMode, onConnect, onNavigateHome }) => {
-  const { isAuthenticated, currentUser } = useAuth();
-  const [isAuthOpen, setIsAuthOpen] = useState(false);
-  const [isProfileOpen, setIsProfileOpen] = useState(false);
+export const Header: React.FC<HeaderProps> = ({ wallet, address, error, isMockMode, onConnect }) => {
+  const { isAuthenticated, activeRole, setShowAuthModal, logout } = useAuth();
 
   return (
-    <header className="h-20 border-b border-white/10 bg-white/5 backdrop-blur-md px-8 flex items-center justify-between sticky top-0 z-30">
+    <header className="h-20 border-b border-white/10 bg-white/5 backdrop-blur-md px-8 flex items-center justify-between sticky top-0 z-10">
       <div className="flex items-center gap-4">
-        <div className="md:hidden">
-          <Logo collapsed={true} onClick={onNavigateHome} />
-        </div>
+        <h1 className="text-xl font-semibold text-white tracking-tight">Dashboard</h1>
         <div className="hidden md:flex items-center gap-2 px-3 py-1 rounded-full bg-midnight/10 border border-midnight/20 text-indigo-300 text-xs font-medium">
           <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse"></span>
           Midnight Preview/Preprod Testnet
         </div>
       </div>
       
-      <div className="flex items-center gap-4 relative">
-        <div className="hidden lg:block">
-          <WalletConnect wallet={wallet} address={address} error={error} isMockMode={isMockMode} onConnect={onConnect} />
-        </div>
-        
-        {isAuthenticated && currentUser ? (
-          <>
-            <button 
-              onClick={() => setIsProfileOpen(!isProfileOpen)}
-              className="flex items-center gap-3 px-2 py-1.5 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 transition-colors"
-            >
-              <div className="hidden sm:block text-right pr-1">
-                <div className="text-sm font-semibold text-white leading-tight">{currentUser.name}</div>
-                <div className="text-xs text-indigo-300">{currentUser.role}</div>
+      <div className="flex items-center gap-4">
+        {isAuthenticated ? (
+          <div className="flex items-center gap-4">
+            <WalletConnect wallet={wallet} address={address} error={error} isMockMode={isMockMode} onConnect={onConnect} />
+            <div className="flex items-center gap-3 pl-4 border-l border-white/10">
+              <div className="text-right hidden md:block">
+                <div className="text-sm font-bold text-white">Connected User</div>
+                <div className="text-xs text-indigo-400">{activeRole || 'Authenticated'}</div>
               </div>
-              <img 
-                src={`https://api.dicebear.com/9.x/identicon/svg?seed=${currentUser.avatarSeed}`} 
-                alt="avatar" 
-                className="w-8 h-8 rounded-full border border-indigo-500/50 bg-black"
-              />
-            </button>
-            <ProfileModal isOpen={isProfileOpen} onClose={() => setIsProfileOpen(false)} />
-          </>
+              <button 
+                onClick={logout}
+                className="w-10 h-10 rounded-full bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 hover:bg-indigo-500/40 transition-colors"
+                title="Logout"
+              >
+                <UserCircle size={20} />
+              </button>
+            </div>
+          </div>
         ) : (
-          <button 
-            onClick={() => setIsAuthOpen(true)}
-            className="bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-2 rounded-xl text-sm font-semibold transition-colors shadow-lg shadow-indigo-500/20"
+          <button
+            onClick={() => setShowAuthModal(true)}
+            className="bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-2 rounded-lg font-semibold transition-colors shadow-lg shadow-indigo-500/20 text-sm flex items-center gap-2"
           >
-            Login / Connect Identity
+            <UserCircle size={18} />
+            Connect Identity
           </button>
         )}
       </div>
-
-      <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} />
     </header>
   );
 };

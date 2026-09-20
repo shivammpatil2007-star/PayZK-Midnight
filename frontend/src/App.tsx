@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useMidnight } from './hooks/useMidnight';
 import { Sidebar } from './components/Sidebar';
 import { Header } from './components/Header';
@@ -6,30 +6,20 @@ import { ProofStudio } from './components/ProofStudio';
 import { VerifierSuite } from './components/VerifierSuite';
 import { AuditLedger } from './components/AuditLedger';
 import { OverviewMetrics } from './components/OverviewMetrics';
-import { AuthProvider } from './context/AuthContext';
+import { AuthModal } from './components/AuthModal';
 function App() {
   const { wallet, address, error, isMockMode, connect } = useMidnight();
   const [currentView, setCurrentView] = useState('overview');
   const [activeProofPayload, setActiveProofPayload] = useState<string | null>(null);
 
-  useEffect(() => {
-    connect();
-  }, []); // Connect on mount
+  // connect() is now triggered manually via AuthModal
 
   return (
-    <AuthProvider>
-      <div className="flex h-screen overflow-hidden bg-slate-950">
-        <Sidebar currentView={currentView} setCurrentView={setCurrentView} />
-        
-        <div className="flex-1 flex flex-col relative overflow-hidden">
-          <Header 
-            wallet={wallet} 
-            address={address} 
-            error={error} 
-            isMockMode={isMockMode} 
-            onConnect={connect} 
-            onNavigateHome={() => setCurrentView('overview')}
-          />
+    <div className="flex h-screen overflow-hidden bg-slate-950">
+      <Sidebar currentView={currentView} setCurrentView={setCurrentView} />
+      
+      <div className="flex-1 flex flex-col relative overflow-hidden">
+        <Header wallet={wallet} address={address} error={error} isMockMode={isMockMode} onConnect={connect} />
         
         <main className="flex-1 overflow-y-auto p-8">
           <div className="max-w-6xl mx-auto">
@@ -55,9 +45,11 @@ function App() {
             {currentView === 'audit' && <AuditLedger />}
           </div>
         </main>
-        </div>
       </div>
-    </AuthProvider>
+
+      {/* Authentication Modal Popup */}
+      <AuthModal onConnectWallet={connect} />
+    </div>
   );
 }
 
