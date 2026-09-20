@@ -10,7 +10,7 @@ PayZK is a Zero-Knowledge Proof (ZKP) protocol built on the **Midnight Network**
 By separating public on-chain state (verification status) from private witness data (actual salary), PayZK ensures absolute privacy for employees while providing unquestionable cryptographic guarantees to employers, landlords, or financial institutions.
 
 ## 🌐 Product X (Twitter) Profile
-Follow our latest updates on X: [Product X Profile](https://x.com/PayZK_Protocol)
+Follow our latest updates on X: [Product X Profile](https://x.com/PayZKProtocol)
 
 ## 🚀 Live Preprod Deployment
 - **Frontend App**: [https://payzk-midnight-frontend.vercel.app](https://payzk-midnight-frontend.vercel.app) *(Update with your actual Vercel URL)*
