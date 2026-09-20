@@ -8,9 +8,9 @@
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
-    "build": "npm install --prefix frontend && npm run frontend:build",
+    "build": "cd frontend && npm install && npm run build",
     "build:contract": "tsc",
-    "test": "vitest run",
+    "test": "cd frontend && npm test",
     "test:watch": "vitest",
     "compact:compile": "compact compile",
     "deploy": "tsx src/deploy.ts",
