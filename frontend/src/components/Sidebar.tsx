@@ -1,5 +1,6 @@
 import React from 'react';
-import { LayoutDashboard, UserCheck, ShieldCheck, FileKey, Activity } from 'lucide-react';
+import { LayoutDashboard, UserCheck, ShieldCheck, FileKey } from 'lucide-react';
+import { Logo } from './Logo';
 
 interface SidebarProps {
   currentView: string;
@@ -16,13 +17,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, setCurrentView })
 
   return (
     <aside className="w-64 border-r border-white/10 bg-white/5 backdrop-blur-md p-6 flex flex-col hidden md:flex z-20 shadow-2xl">
-      <div className="flex items-center gap-3 mb-10">
-        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-cyan-400 flex items-center justify-center shadow-lg shadow-indigo-500/20">
-          <Activity size={24} className="text-white" />
-        </div>
-        <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
-          PayZK
-        </span>
+      <div className="mb-10">
+        <Logo collapsed={false} />
       </div>
       
       <nav className="flex-1 flex flex-col gap-2">
