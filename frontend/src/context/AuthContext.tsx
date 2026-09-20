@@ -19,12 +19,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [showAuthModal, setShowAuthModal] = useState(false);
 
   useEffect(() => {
-    // Check localStorage for existing session
-    const savedRole = localStorage.getItem('payzk_activeRole') as Role;
-    if (savedRole) {
-      setIsAuthenticated(true);
-      setActiveRole(savedRole);
-    }
+    // Intentionally left blank to enforce manual login on every refresh
+    // as per the new strictly manual authentication flow requirements.
   }, []);
 
   const login = (role?: Role) => {
