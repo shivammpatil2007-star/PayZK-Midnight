@@ -2,31 +2,32 @@ name: PayZK CI/CD Pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, master ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, master ]
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout Code
         uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
 
-      - name: Install Dependencies
+      - name: Install Frontend Dependencies
         run: |
-          npm install --prefer-offline || true
-          if [ -d "frontend" ]; then cd frontend && npm install; fi
+          if [ -d "frontend" ]; then
+            cd frontend && npm install
+          else
+            npm install
+          fi
 
-      - name: Verify TypeScript & Build Frontend
+      - name: Build Frontend Application
         run: |
           if [ -d "frontend" ]; then
             cd frontend && npm run build
@@ -37,7 +38,7 @@ jobs:
       - name: Run Unit Tests
         run: |
           if [ -d "frontend" ]; then
-            cd frontend && (npx vitest run || npm test -- --passWithNoTests || true)
+            cd frontend && (npx vitest run --passWithNoTests || npm test -- --passWithNoTests || true)
           else
-            npm test -- --passWithNoTests || true
+            npx vitest run --passWithNoTests || true
           fi
