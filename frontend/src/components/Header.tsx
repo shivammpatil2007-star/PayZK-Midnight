@@ -8,10 +8,11 @@ interface HeaderProps {
   address: string | null;
   error: string | null;
   isMockMode: boolean;
+  isConnecting: boolean;
   onConnect: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ wallet, address, error, isMockMode, onConnect }) => {
+export const Header: React.FC<HeaderProps> = ({ wallet, address, error, isMockMode, isConnecting, onConnect }) => {
   const { isAuthenticated, activeRole, setShowAuthModal, logout } = useAuth();
 
   return (
@@ -27,7 +28,7 @@ export const Header: React.FC<HeaderProps> = ({ wallet, address, error, isMockMo
       <div className="flex items-center gap-4">
         {isAuthenticated ? (
           <div className="flex items-center gap-4">
-            <WalletConnect wallet={wallet} address={address} error={error} isMockMode={isMockMode} onConnect={onConnect} />
+            <WalletConnect wallet={wallet} address={address} error={error} isMockMode={isMockMode} isConnecting={isConnecting} onConnect={onConnect} />
             <div className="flex items-center gap-3 pl-4 border-l border-white/10">
               <div className="text-right hidden md:block">
                 <div className="text-sm font-bold text-white">Connected User</div>

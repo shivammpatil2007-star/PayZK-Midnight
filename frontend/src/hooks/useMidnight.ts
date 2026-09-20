@@ -5,6 +5,7 @@ export const useMidnight = () => {
   const [address, setAddress] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isMockMode, setIsMockMode] = useState<boolean>(false);
+  const [isConnecting, setIsConnecting] = useState<boolean>(false);
 
   const getWalletProvider = () => {
     const w = window as any;
@@ -40,6 +41,7 @@ export const useMidnight = () => {
     try {
       setError(null);
       setIsMockMode(false);
+      setIsConnecting(true);
       
       let provider = getWalletProvider();
       
@@ -148,6 +150,8 @@ export const useMidnight = () => {
       });
       setAddress("mn_addr_mock_error_fallback");
       setIsMockMode(true);
+    } finally {
+      setIsConnecting(false);
     }
   };
 
@@ -156,7 +160,8 @@ export const useMidnight = () => {
     setAddress(null);
     setError(null);
     setIsMockMode(false);
+    setIsConnecting(false);
   };
 
-  return { wallet, address, error, isMockMode, connect, disconnect, setError };
+  return { wallet, address, error, isMockMode, isConnecting, connect, disconnect, setError };
 };
