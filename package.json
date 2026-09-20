@@ -8,7 +8,8 @@
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "npm run frontend:build",
+    "build:contract": "tsc",
     "test": "vitest run",
     "test:watch": "vitest",
     "compact:compile": "compact compile",
