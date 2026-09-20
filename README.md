@@ -27,7 +27,7 @@
 - **Live Application (Vercel)**: [https://pay-zk-midnight-two.vercel.app/](https://pay-zk-midnight-two.vercel.app/)
 - **Product X Profile**: [https://x.com/PayZKProtocol](https://x.com/PayZKProtocol)
 - **CI/CD Pipeline Workflow**: [GitHub Actions CI](https://github.com/shivammpatil2007-star/PayZK-Midnight/actions)
-- **Demo Video Walkthrough**: [Watch PayZK Level 4 Demo Video](#) (Insert Video Link Here)
+- **Demo Video Walkthrough**: [Watch PayZK Level 4 Demo Video](https://www.loom.com/share/d5d0f8e1a95a4a54b65f2487d20e233f)
 
 ---
 
