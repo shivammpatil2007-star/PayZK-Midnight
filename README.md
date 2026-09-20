@@ -2,7 +2,7 @@
 
 [![CI/CD Pipeline](https://github.com/shivammpatil2007-star/PayZK-Midnight/actions/workflows/ci.yml/badge.svg)](https://github.com/shivammpatil2007-star/PayZK-Midnight/actions)
 [![Network](https://img.shields.io/badge/Midnight-Preview%20Testnet-6366f1)](https://midnight.network)
-[![Vercel](https://img.shields.io/badge/Vercel-Deployed-000000?logo=vercel)](https://vercel.com/shivammpatil2007-stars-projects/pay-zk-midnight)
+[![Vercel](https://img.shields.io/badge/Vercel-Deployed-000000?logo=vercel)](https://pay-zk-midnight-two.vercel.app/)
 [![X Profile](https://img.shields.io/badge/X-@PayZKProtocol-000000?logo=x)](https://x.com/PayZKProtocol)
 
 > PayZK is a zero-knowledge privacy protocol built on the **Midnight Network**. It enables employees to prove income thresholds and employment status to third-party verifiers (landlords, lenders, institutions) without revealing exact salary amounts, bank statements, or sensitive identity data.
@@ -24,7 +24,7 @@
 ## 🔗 Submission Assets & Links
 
 - **Public Repository**: [GitHub - PayZK-Midnight](https://github.com/shivammpatil2007-star/PayZK-Midnight)
-- **Live Application (Vercel)**: [https://vercel.com/shivammpatil2007-stars-projects/pay-zk-midnight](https://vercel.com/shivammpatil2007-stars-projects/pay-zk-midnight)
+- **Live Application (Vercel)**: [https://pay-zk-midnight-two.vercel.app/](https://pay-zk-midnight-two.vercel.app/)
 - **Product X Profile**: [https://x.com/PayZKProtocol](https://x.com/PayZKProtocol)
 - **CI/CD Pipeline Workflow**: [GitHub Actions CI](https://github.com/shivammpatil2007-star/PayZK-Midnight/actions)
 - **Demo Video Walkthrough**: [Watch PayZK Level 4 Demo Video](#) (Insert Video Link Here)
