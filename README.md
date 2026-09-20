@@ -191,6 +191,7 @@ npx vitest run
 ## 🔗 Submission Assets & Links
 
 - **Public Repository**: [GitHub - PayZK-Midnight](https://github.com/shivammpatil2007-star/PayZK-Midnight)
+- **Live Application (Vercel)**: [https://vercel.com/shivammpatil2007-stars-projects/pay-zk-midnight-](https://vercel.com/shivammpatil2007-stars-projects/pay-zk-midnight-)
 - **Product X Profile**: [https://x.com/PayZKProtocol](https://x.com/PayZKProtocol)
 - **CI/CD Pipeline Workflow**: [GitHub Actions CI](https://github.com/shivammpatil2007-star/PayZK-Midnight/actions)
 - **Demo Video Walkthrough**: [Watch PayZK Level 4 Demo Video](#) (Insert Video Link Here)
