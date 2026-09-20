@@ -4,6 +4,7 @@
 [![Network](https://img.shields.io/badge/Midnight-Preview%20Testnet-6366f1)](https://midnight.network)
 [![Vercel](https://img.shields.io/badge/Vercel-Deployed-000000?logo=vercel)](https://pay-zk-midnight-two.vercel.app/)
 [![X Profile](https://img.shields.io/badge/X-@PayZKProtocol-000000?logo=x)](https://x.com/PayZKProtocol)
+[![Demo Video](https://img.shields.io/badge/Demo%20Video-Loom-625df5?logo=loom)](https://www.loom.com/share/d5d0f8e1a95a4a54b65f2487d20e233f)
 
 > PayZK is a zero-knowledge privacy protocol built on the **Midnight Network**. It enables employees to prove income thresholds and employment status to third-party verifiers (landlords, lenders, institutions) without revealing exact salary amounts, bank statements, or sensitive identity data.
 
