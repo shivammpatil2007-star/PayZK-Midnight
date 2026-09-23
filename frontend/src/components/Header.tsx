@@ -1,6 +1,7 @@
 import React from 'react';
 import { WalletConnect } from './WalletConnect';
 import { Wallet } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 interface HeaderProps {
   wallet: any;
@@ -13,6 +14,7 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ wallet, address, error, isMockMode, isConnecting, onConnect }) => {
   const isConnected = !!wallet && address !== null;
+  const { setShowAuthModal } = useAuth();
 
   return (
     <header className="h-20 border-b border-white/10 bg-white/5 backdrop-blur-md px-8 flex items-center justify-between sticky top-0 z-10">
@@ -27,7 +29,7 @@ export const Header: React.FC<HeaderProps> = ({ wallet, address, error, isMockMo
       <div className="flex items-center gap-4">
         {!isConnected || address === null ? (
           <button 
-            onClick={onConnect}
+            onClick={() => setShowAuthModal(true)}
             className="btn-primary"
           >
             <Wallet className="w-4 h-4"/>
