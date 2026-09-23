@@ -117,7 +117,7 @@ export const BrandAssets: React.FC = () => {
     ctx.fillText('Confidential Income & Employment Verification on @MidnightNtwrk', 750, 330);
   };
 
-  const downloadCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>, filename: string) => {
+  const downloadCanvas = (canvasRef: React.RefObject<HTMLCanvasElement | null>, filename: string) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const dataUrl = canvas.toDataURL('image/png');
