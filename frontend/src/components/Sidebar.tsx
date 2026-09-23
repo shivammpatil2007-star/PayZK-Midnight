@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutDashboard, UserCheck, ShieldCheck, History, Share2 } from 'lucide-react';
+import { LayoutDashboard, UserCheck, ShieldCheck, History } from 'lucide-react';
 import { Logo } from './Logo';
 
 interface SidebarProps {
@@ -13,7 +13,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, setCurrentView })
     { id: 'employee', label: 'Employee Studio', icon: <UserCheck size={20} /> },
     { id: 'verifier', label: 'Verifier Suite', icon: <ShieldCheck size={20} /> },
     { id: 'ledger', label: 'Proof Audit Ledger', icon: <History size={20} /> },
-    { id: 'brand-assets', label: 'X Brand Assets', icon: <Share2 size={20} /> },
   ];
 
   return (
