@@ -7,6 +7,7 @@ import { VerifierSuite } from './components/VerifierSuite';
 import { AuditLedger } from './components/AuditLedger';
 import { OverviewMetrics } from './components/OverviewMetrics';
 import { AuthModal } from './components/AuthModal';
+import { BrandAssets } from './components/BrandAssets';
 function App() {
   const { walletProvider, account, error, isMockMode, isConnecting, connectWallet } = useMidnight();
   const [currentView, setCurrentView] = useState('overview');
@@ -50,6 +51,7 @@ function App() {
               />
             )}
             {currentView === 'audit' && <AuditLedger />}
+            {currentView === 'brand-assets' && <BrandAssets />}
           </div>
         </main>
       </div>

@@ -45,7 +45,7 @@ export const VerifierSuite: React.FC<{ activeProofPayload?: string | null }> = (
               event: "ZK_PROOF_VERIFIED",
               proofHash: input,
               status: "VALIDATED",
-              contractId: import.meta.env.VITE_CONTRACT_ADDRESS || "mn_addr_preview1zwxqm3yt970s99gvrn99gz3fzt7y8prazgl4k3twl6cmxrgwk0fsv2tprw",
+              contractId: import.meta.env.VITE_CONTRACT_ID || "0000000000000000000000000000000000000000000000000000000000000001",
               timestamp: timestamp
             })
           }).catch(err => console.warn('Webhook dispatch failed:', err));
@@ -61,7 +61,8 @@ export const VerifierSuite: React.FC<{ activeProofPayload?: string | null }> = (
       `VERIFICATION STATUS: CRYPTOGRAPHICALLY VERIFIED (VALIDATED)\n` +
       `PROOF HASH: ${proofInput}\n` +
       `LEDGER BLOCK: 2,845,912\n` +
-      `CONTRACT ID: ${import.meta.env.VITE_CONTRACT_ADDRESS || 'mn_addr_preview1zwxqm3yt970s99gvrn99gz3fzt7y8prazgl4k3twl6cmxrgwk0fsv2tprw'}\n` +
+      `CONTRACT ID: ${import.meta.env.VITE_CONTRACT_ID || '0000000000000000000000000000000000000000000000000000000000000001'}\n` +
+      `CONTRACT ADDR: mn_contract_preview1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq\n` +
       `TIMESTAMP: ${new Date().toUTCString()}\n` +
       `NETWORK: Midnight Preview / Preprod Testnet\n`;
 
@@ -96,7 +97,7 @@ export const VerifierSuite: React.FC<{ activeProofPayload?: string | null }> = (
             <textarea
               value={proofInput}
               onChange={(e) => setProofInput(e.target.value)}
-              placeholder="0x..."
+              placeholder="eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9..."
               className="flex-1 min-h-[200px] w-full bg-black/30 border border-white/10 rounded-xl p-4 text-cyan-100 font-mono text-sm focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all resize-none"
             ></textarea>
 
@@ -149,8 +150,8 @@ export const VerifierSuite: React.FC<{ activeProofPayload?: string | null }> = (
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-400">Contract ID</span>
-                    <span className="text-cyan-300 font-mono text-xs max-w-[200px] truncate">
-                      {import.meta.env.VITE_CONTRACT_ADDRESS || 'mn_addr_preview1zwxqm3yt...'}
+                    <span className="text-cyan-300 font-mono text-xs max-w-[200px] truncate" title="0000000000000000000000000000000000000000000000000000000000000001">
+                      {import.meta.env.VITE_CONTRACT_ID || '0000000000000000000...'}
                     </span>
                   </div>
                   <div className="flex justify-between">

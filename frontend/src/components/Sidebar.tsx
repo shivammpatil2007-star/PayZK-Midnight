@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutDashboard, UserCheck, ShieldCheck, FileKey } from 'lucide-react';
+import { LayoutDashboard, UserCheck, ShieldCheck, FileKey, Image as ImageIcon } from 'lucide-react';
 import { Logo } from './Logo';
 
 interface SidebarProps {
@@ -13,10 +13,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, setCurrentView })
     { id: 'employee', label: 'Employee Studio', icon: <UserCheck size={20} /> },
     { id: 'verifier', label: 'Verifier Suite', icon: <ShieldCheck size={20} /> },
     { id: 'audit', label: 'Proof Audit Ledger', icon: <FileKey size={20} /> },
+    { id: 'brand-assets', label: 'X Brand Assets', icon: <ImageIcon size={20} /> },
   ];
 
   return (
-    <aside className="w-64 border-r border-white/10 bg-white/5 backdrop-blur-md p-6 flex flex-col hidden md:flex z-20 shadow-2xl">
+    <aside className="w-64 border-r border-slate-800/80 bg-slate-900/60 backdrop-blur-md p-6 flex flex-col hidden md:flex z-20 shadow-2xl">
       <div className="mb-10">
         <Logo collapsed={false} />
       </div>
@@ -30,8 +31,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, setCurrentView })
               onClick={() => setCurrentView(item.id)}
               className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-left ${
                 isActive 
-                  ? 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 shadow-inner' 
-                  : 'text-gray-400 hover:text-white hover:bg-white/5 border border-transparent'
+                  ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-inner' 
+                  : 'text-gray-400 hover:text-white hover:bg-slate-800/50 border border-transparent'
               }`}
             >
               {item.icon}

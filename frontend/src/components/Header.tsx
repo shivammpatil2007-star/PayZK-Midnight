@@ -28,7 +28,7 @@ export const Header: React.FC<HeaderProps> = ({ wallet, address, error, isMockMo
         {!isConnected || address === null ? (
           <button 
             onClick={onConnect}
-            className="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-semibold px-4 py-2 rounded-lg transition-all shadow-lg flex items-center gap-2"
+            className="btn-primary"
           >
             <Wallet className="w-4 h-4"/>
             {isConnecting ? "Connecting..." : "Connect Wallet"}

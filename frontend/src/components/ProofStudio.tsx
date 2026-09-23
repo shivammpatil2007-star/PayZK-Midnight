@@ -43,7 +43,7 @@ export const ProofStudio: React.FC<{
             txHashStr = signature.signature.substring(0, 66); // Use the real signature as tx hash for UI
           } else {
             // Fallback for mock wallet or older CIP-30
-            txHashStr = "0x" + Array.from({length: 64}, () => Math.floor(Math.random()*16).toString(16)).join('');
+            txHashStr = "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9." + Array.from({length: 64}, () => Math.floor(Math.random()*16).toString(16)).join('');
           }
         } catch (walletErr) {
           console.warn("Wallet signing rejected or failed", walletErr);
@@ -141,7 +141,7 @@ export const ProofStudio: React.FC<{
             <button 
               type="submit" 
               disabled={!wallet || isProving}
-              className="mt-4 w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3 px-6 rounded-xl transition-all shadow-lg shadow-emerald-500/20 disabled:opacity-50 flex items-center justify-center gap-2"
+              className="mt-4 w-full btn-primary"
             >
               {isProving ? (
                 <>
@@ -203,7 +203,7 @@ export const ProofStudio: React.FC<{
                         setCurrentView('verifier');
                       }
                     }}
-                    className="flex-1 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 py-2 rounded-lg text-sm font-medium transition-colors border border-emerald-500/30"
+                    className="flex-1 btn-primary"
                   >
                     Verify On-Chain
                   </button>

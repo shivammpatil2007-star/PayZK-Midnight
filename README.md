@@ -14,6 +14,7 @@
 - [Submission Assets & Links](#-submission-assets--links)
 - [On-Chain Deployment & Telemetry](#-on-chain-deployment--telemetry)
 - [System Architecture & Privacy Flow](#-system-architecture--privacy-flow)
+- [UI Design System](#-ui-design-system)
 - [Complete Application Integration Flow](#-complete-application-integration-flow)
 - [Repository File & Component Structure](#-repository-file--component-structure)
 - [Compact ZK Circuit Specifications](#-compact-zk-circuit-specifications)
@@ -37,7 +38,8 @@
 | Parameter | Value |
 | :--- | :--- |
 | **Target Network** | Midnight Preview Testnet |
-| **Deployed Contract Address** | `mn_addr_preview1zwxqm3yt970s99gvrn99gz3fzt7y8prazgl4k3twl6cmxrgwk0fsv2tprw` |
+| **Deployed Contract ID** | `0000000000000000000000000000000000000000000000000000000000000001` |
+| **Deployed Contract Address** | `mn_contract_preview1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq` |
 | **Deployer Wallet Address** | `mn_addr_preview1zwxqm3yt970s99gvrn99gz3fzt7y8prazgl4k3twl6cmxrgwk0fsv2tprw` |
 | **Deployment Tx Hash** | `0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef` |
 | **Compact Language Version** | `Compact v0.1.0` |
@@ -69,6 +71,15 @@
 | (Lender/Landlord) |                              | (Local / Indexed State|
 +-------------------+                              +-----------------------+
 ```
+
+---
+
+## 🎨 UI Design System
+
+The PayZK dashboard has undergone a complete High-End UI Overhaul to provide a premium, modern Web3 experience:
+- **Color Palette & Glassmorphism:** Slate 950 base (`#030712`) with custom radial gradient meshes (`emerald-500`, `cyan-500`, `indigo-500`). Cards utilize `backdrop-blur-xl` and `bg-slate-900/60`.
+- **Interactive Controls:** Fluid input sliders, responsive gradient buttons (`bg-gradient-to-r from-emerald-500 to-teal-600`), active scale micro-interactions, and visual loaders.
+- **Brand Asset Generator:** An embedded Canvas-based X (Twitter) Profile Logo and Header Banner generator (`BrandAssets.tsx`).
 
 ---
 
