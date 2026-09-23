@@ -50,7 +50,7 @@ function App() {
                 activeProofPayload={activeProofPayload}
               />
             )}
-            {currentView === 'audit' && <AuditLedger />}
+            {currentView === 'ledger' && <AuditLedger />}
             {currentView === 'brand-assets' && <BrandAssets />}
           </div>
         </main>

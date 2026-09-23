@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutDashboard, UserCheck, ShieldCheck, FileKey, Image as ImageIcon } from 'lucide-react';
+import { LayoutDashboard, UserCheck, ShieldCheck, History, Share2 } from 'lucide-react';
 import { Logo } from './Logo';
 
 interface SidebarProps {
@@ -8,12 +8,12 @@ interface SidebarProps {
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({ currentView, setCurrentView }) => {
-  const menuItems = [
+  const navItems = [
     { id: 'overview', label: 'Overview Dashboard', icon: <LayoutDashboard size={20} /> },
     { id: 'employee', label: 'Employee Studio', icon: <UserCheck size={20} /> },
     { id: 'verifier', label: 'Verifier Suite', icon: <ShieldCheck size={20} /> },
-    { id: 'audit', label: 'Proof Audit Ledger', icon: <FileKey size={20} /> },
-    { id: 'brand-assets', label: 'X Brand Assets', icon: <ImageIcon size={20} /> },
+    { id: 'ledger', label: 'Proof Audit Ledger', icon: <History size={20} /> },
+    { id: 'brand-assets', label: 'X Brand Assets', icon: <Share2 size={20} /> },
   ];
 
   return (
@@ -23,7 +23,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, setCurrentView })
       </div>
       
       <nav className="flex-1 flex flex-col gap-2">
-        {menuItems.map((item) => {
+        {navItems.map((item) => {
           const isActive = currentView === item.id;
           return (
             <button
