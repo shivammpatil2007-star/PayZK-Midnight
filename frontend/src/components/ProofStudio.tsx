@@ -12,16 +12,18 @@ export const ProofStudio: React.FC<{
   const [proofData, setProofData] = useState<any>(null);
   const [isCopied, setIsCopied] = useState(false);
   const [progressStep, setProgressStep] = useState(0);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleProve = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!wallet) {
-      alert("Please connect your wallet first.");
+      setErrorMessage("Please connect your wallet first.");
       return;
     }
 
     setIsProving(true);
     setProofData(null);
+    setErrorMessage(null);
 
     try {
       setProgressStep(1);
@@ -47,12 +49,12 @@ export const ProofStudio: React.FC<{
             txHashStr = signature.signature.substring(0, 66); // Use the real signature as tx hash for UI
           } else {
             // Fallback for mock wallet or older CIP-30
-            txHashStr = "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9." + Array.from({length: 64}, () => Math.floor(Math.random()*16).toString(16)).join('');
-          }
-        } catch (walletErr) {
-          console.warn("Wallet signing rejected or failed, falling back to simulated proof.", walletErr);
-          // Fallback if the user rejects the transaction or API fails
-          txHashStr = "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9." + Array.from({length: 64}, () => Math.floor(Math.random()*16).toString(16)).join('');
+        } catch (err: any) {
+          console.warn("Wallet signing rejected or failed", err);
+          // DO NOT call window.alert()
+          setErrorMessage('Transaction or proof request was cancelled by your wallet.');
+          setIsProving(false);
+          return;
         }
 
         const newProof = {
@@ -70,11 +72,11 @@ export const ProofStudio: React.FC<{
         localStorage.setItem('payzk_proofs', JSON.stringify([newProof, ...existing]));
 
       } else {
-        alert("Verification Failed: Your salary does not meet the target threshold.");
+        setErrorMessage("Verification Failed: Your salary does not meet the target threshold.");
       }
     } catch (err) {
       console.error(err);
-      alert("Error generating ZK Proof");
+      setErrorMessage("Error generating ZK Proof");
     } finally {
       setIsProving(false);
     }
@@ -94,8 +96,13 @@ export const ProofStudio: React.FC<{
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="glass-panel p-8 border-emerald-500/20">
-          <form onSubmit={handleProve} className="flex flex-col gap-6">
+        <div className="glass-panel p-8 border-emerald-500/20 relative">
+          {errorMessage && (
+            <div className="absolute top-0 left-0 w-full p-3 bg-red-500/20 border-b border-red-500/50 text-red-400 text-sm font-medium text-center backdrop-blur-md z-10 animate-in fade-in slide-in-from-top-2">
+              {errorMessage}
+            </div>
+          )}
+          <form onSubmit={handleProve} className={`flex flex-col gap-6 ${errorMessage ? 'mt-8' : ''}`}>
             
             <div className="space-y-4">
               <div className="flex justify-between items-end">

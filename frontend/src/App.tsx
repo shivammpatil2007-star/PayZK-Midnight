@@ -6,13 +6,12 @@ import { ProofStudio } from './components/ProofStudio';
 import { VerifierSuite } from './components/VerifierSuite';
 import { AuditLedger } from './components/AuditLedger';
 import { OverviewMetrics } from './components/OverviewMetrics';
-import { AuthModal } from './components/AuthModal';
+import { WalletModal } from './components/WalletModal';
 function App() {
-  const { walletProvider, account, error, isMockMode, isConnecting, connectWallet } = useMidnight();
+  const { walletProvider, isConnected, address, error, isConnecting, connectLaceWallet } = useMidnight();
   const [currentView, setCurrentView] = useState('overview');
   const [activeProofPayload, setActiveProofPayload] = useState<string | null>(null);
-
-  // connect() is now triggered manually via AuthModal
+  const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
 
   return (
     <div className="flex h-screen overflow-hidden bg-slate-950">
@@ -21,11 +20,11 @@ function App() {
       <div className="flex-1 flex flex-col relative overflow-hidden">
         <Header 
           wallet={walletProvider} 
-          address={account} 
+          address={address} 
           error={error} 
-          isMockMode={isMockMode} 
+          isMockMode={false} 
           isConnecting={isConnecting} 
-          onConnect={connectWallet} 
+          onConnect={() => setIsWalletModalOpen(true)} 
         />
         
         <main className="flex-1 overflow-y-auto p-8">
@@ -54,8 +53,12 @@ function App() {
         </main>
       </div>
 
-      {/* Authentication Modal Popup */}
-      <AuthModal onConnectWallet={connectWallet} />
+      <WalletModal 
+        isOpen={isWalletModalOpen} 
+        onClose={() => setIsWalletModalOpen(false)} 
+        onSelectLace={connectLaceWallet} 
+        isConnecting={isConnecting} 
+      />
     </div>
   );
 }
