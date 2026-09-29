@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Copy } from 'lucide-react';
 
 export const OverviewMetrics: React.FC = () => {
+  const [isCopied, setIsCopied] = useState(false);
   return (
     <div className="flex flex-col gap-6">
       {/* Contract Telemetry Banner */}
@@ -10,8 +12,23 @@ export const OverviewMetrics: React.FC = () => {
             <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
             <div>
               <div className="text-xs font-semibold text-emerald-400 uppercase tracking-wider">Active Midnight Contract (CA)</div>
-              <div className="text-sm font-mono text-slate-200 break-all select-all">
+              <div className="text-sm font-mono text-slate-200 break-all select-all flex items-center gap-2">
                 mn_contract_preview1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText('mn_contract_preview1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq');
+                    setIsCopied(true);
+                    setTimeout(() => setIsCopied(false), 2000);
+                  }}
+                  className="text-gray-400 hover:text-white transition-colors relative"
+                >
+                  <Copy size={14} />
+                  {isCopied && (
+                    <span className="absolute -top-8 -right-4 bg-emerald-500 text-white text-[10px] font-bold px-2 py-1 rounded shadow-lg animate-in slide-in-from-bottom-2 fade-in whitespace-nowrap">
+                      Copied!
+                    </span>
+                  )}
+                </button>
               </div>
             </div>
           </div>
