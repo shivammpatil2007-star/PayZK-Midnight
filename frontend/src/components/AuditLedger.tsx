@@ -26,13 +26,13 @@ export const AuditLedger: React.FC = () => {
       <div className="glass-panel border-amber-500/20 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
-            <thead className="bg-white/5 border-b border-white/10 text-gray-400">
+            <thead className="bg-slate-900/80 border-b border-white/10 text-gray-400">
               <tr>
-                <th className="px-6 py-4 font-medium">Timestamp</th>
-                <th className="px-6 py-4 font-medium">Type</th>
-                <th className="px-6 py-4 font-medium">Target Met</th>
-                <th className="px-6 py-4 font-medium">Proof Hash</th>
-                <th className="px-6 py-4 font-medium">Status</th>
+                <th className="px-6 py-5 font-medium tracking-wide">Timestamp</th>
+                <th className="px-6 py-5 font-medium tracking-wide">Type</th>
+                <th className="px-6 py-5 font-medium tracking-wide">Target Met</th>
+                <th className="px-6 py-5 font-medium tracking-wide">Proof Hash</th>
+                <th className="px-6 py-5 font-medium tracking-wide">Status</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-white/5">
@@ -45,21 +45,21 @@ export const AuditLedger: React.FC = () => {
                 </tr>
               ) : (
                 proofs.map((proof, i) => (
-                  <tr key={i} className="hover:bg-white/5 transition-colors">
-                    <td className="px-6 py-4 text-gray-300">
+                  <tr key={i} className="hover:bg-amber-500/10 transition-colors cursor-default">
+                    <td className="px-6 py-5 text-gray-300">
                       {new Date(proof.timestamp).toLocaleString()}
                     </td>
-                    <td className="px-6 py-4 text-white">
+                    <td className="px-6 py-5 text-white">
                       {proof.type}
                     </td>
-                    <td className="px-6 py-4 font-bold text-emerald-400">
+                    <td className="px-6 py-5 font-bold text-emerald-400">
                       &gt; ${proof.target}
                     </td>
-                    <td className="px-6 py-4 font-mono text-xs text-amber-300/80 max-w-[200px] truncate">
+                    <td className="px-6 py-5 font-mono text-xs text-amber-300/80 max-w-[200px] truncate">
                       {proof.hash}
                     </td>
-                    <td className="px-6 py-4">
-                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                    <td className="px-6 py-5">
+                      <span className="inline-flex items-center justify-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 leading-tight">
                         {proof.status}
                       </span>
                     </td>

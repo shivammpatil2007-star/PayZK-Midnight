@@ -2,22 +2,18 @@
 
 @layer base {
   body {
-    @apply text-slate-100 min-h-screen font-sans bg-slate-950;
-    background-image: 
-      radial-gradient(circle at 15% 50%, rgba(16, 185, 129, 0.08), transparent 30%),
-      radial-gradient(circle at 85% 30%, rgba(6, 182, 212, 0.08), transparent 30%),
-      radial-gradient(circle at 50% 100%, rgba(99, 102, 241, 0.05), transparent 40%);
+    @apply text-slate-100 min-h-screen font-sans bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-slate-950 to-black;
     background-attachment: fixed;
   }
 }
 
 @layer components {
   .glass-panel {
-    @apply bg-slate-900/60 backdrop-blur-xl border border-slate-800/80 shadow-2xl transition-all duration-300 rounded-2xl;
+    @apply bg-slate-900/60 backdrop-blur-xl border border-slate-800/80 shadow-2xl transition-all duration-300 ease-out rounded-2xl;
   }
   
   .glass-panel:hover {
-    @apply border-emerald-500/30 shadow-emerald-500/10;
+    @apply border-emerald-500/40 shadow-emerald-500/10 -translate-y-0.5;
   }
   
   .btn-primary {

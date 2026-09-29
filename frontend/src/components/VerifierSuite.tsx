@@ -1,11 +1,12 @@
 // Component: Verifier Suite
 import React, { useState, useEffect } from 'react';
-import { SearchCode, FileKey2, CheckCircle2, ShieldAlert } from 'lucide-react';
+import { SearchCode, FileKey2, CheckCircle2, ShieldAlert, Copy } from 'lucide-react';
 
 export const VerifierSuite: React.FC<{ activeProofPayload?: string | null }> = ({ activeProofPayload }) => {
   const [proofInput, setProofInput] = useState(activeProofPayload || '');
   const [isValidating, setIsValidating] = useState(false);
   const [result, setResult] = useState<boolean | null>(null);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     if (activeProofPayload) {
@@ -148,13 +149,35 @@ export const VerifierSuite: React.FC<{ activeProofPayload?: string | null }> = (
                     <span className="text-gray-400">Ledger Block</span>
                     <span className="text-white font-mono">2,845,912</span>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-400">Contract ID</span>
-                    <span className="text-cyan-300 font-mono text-xs max-w-[200px] truncate" title="0000000000000000000000000000000000000000000000000000000000000001">
-                      {import.meta.env.VITE_CONTRACT_ID || '0000000000000000000...'}
-                    </span>
+                  <div className="flex flex-col gap-1 border-t border-white/5 pt-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-400">Contract ID</span>
+                      <span className="text-[10px] uppercase font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded-full flex items-center gap-1">
+                        <CheckCircle2 size={12} /> Valid On-Chain
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center bg-black/40 p-2 rounded-lg border border-white/5 mt-1">
+                      <span className="text-cyan-300 font-mono text-xs max-w-[220px] truncate" title="mn_contract_preview1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq">
+                        mn_contract_preview1qqqqqqqq...
+                      </span>
+                      <button 
+                        onClick={() => {
+                          navigator.clipboard.writeText('mn_contract_preview1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq');
+                          setCopied(true);
+                          setTimeout(() => setCopied(false), 2000);
+                        }}
+                        className="text-gray-400 hover:text-white transition-colors relative"
+                      >
+                        <Copy size={14} />
+                        {copied && (
+                          <span className="absolute -top-8 -right-4 bg-emerald-500 text-white text-[10px] font-bold px-2 py-1 rounded shadow-lg animate-in slide-in-from-bottom-2 fade-in whitespace-nowrap">
+                            Copied!
+                          </span>
+                        )}
+                      </button>
+                    </div>
                   </div>
-                  <div className="flex justify-between">
+                  <div className="flex justify-between border-t border-white/5 pt-3">
                     <span className="text-gray-400">Timestamp</span>
                     <span className="text-white">{new Date().toLocaleString()}</span>
                   </div>

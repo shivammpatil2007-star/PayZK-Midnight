@@ -11,6 +11,7 @@ export const ProofStudio: React.FC<{
   const [isProving, setIsProving] = useState(false);
   const [proofData, setProofData] = useState<any>(null);
   const [isCopied, setIsCopied] = useState(false);
+  const [progressStep, setProgressStep] = useState(0);
 
   const handleProve = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,8 +24,11 @@ export const ProofStudio: React.FC<{
     setProofData(null);
 
     try {
-      // Simulate Proving Delay (Local ZK computation simulation)
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      setProgressStep(1);
+      // Simulate Proving Delay
+      await new Promise(resolve => setTimeout(resolve, 800));
+      setProgressStep(2);
+      await new Promise(resolve => setTimeout(resolve, 700));
       
       if (salary >= target) {
         // Trigger a real wallet interaction! This fulfills the "transactions are not done" requirement
@@ -145,8 +149,8 @@ export const ProofStudio: React.FC<{
             >
               {isProving ? (
                 <>
-                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                  Computing ZK Circuit...
+                  <div className="w-5 h-5 border-2 border-emerald-300 border-t-white rounded-full animate-spin"></div>
+                  {progressStep === 1 ? 'Synthesizing Circuit...' : 'Generating Cryptographic Proof...'}
                 </>
               ) : (
                 'Generate Cryptographic Proof'
@@ -192,9 +196,14 @@ export const ProofStudio: React.FC<{
                         setTimeout(() => setIsCopied(false), 2000);
                       }
                     }}
-                    className="flex-1 bg-white/5 hover:bg-white/10 text-white py-2 rounded-lg text-sm font-medium transition-colors border border-white/10"
+                    className="flex-1 bg-white/5 hover:bg-white/10 text-white py-2 rounded-lg text-sm font-medium transition-colors border border-white/10 relative"
                   >
-                    {isCopied ? '✓ Copied to Clipboard' : 'Copy Payload'}
+                    Copy Payload
+                    {isCopied && (
+                      <span className="absolute -top-10 left-1/2 -translate-x-1/2 bg-emerald-500 text-white text-[10px] font-bold px-2 py-1 rounded shadow-lg animate-in slide-in-from-bottom-2 fade-in whitespace-nowrap">
+                        Copied!
+                      </span>
+                    )}
                   </button>
                   <button 
                     onClick={() => {

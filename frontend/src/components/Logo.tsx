@@ -12,22 +12,20 @@ export const Logo: React.FC<LogoProps> = ({ collapsed = false, onClick, classNam
       className={`flex items-center gap-3 ${onClick ? 'cursor-pointer hover:opacity-80 transition-opacity' : ''} ${className}`}
       onClick={onClick}
     >
-      <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 via-indigo-500 to-cyan-400 shadow-lg shadow-indigo-500/30 overflow-hidden">
-        {/* Shield / Lock Motif */}
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-white z-10">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M8 11a4 4 0 1 1 8 0c0 1.5-.5 2.5-1.5 3.5-.5.5-1.5 1.5-2.5 1.5v3h-4v-3c-1 0-2-1-2.5-1.5C8.5 13.5 8 12.5 8 11z" fill="currentColor" />
+      <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-slate-950 shadow-lg shadow-emerald-500/20 overflow-hidden border border-emerald-500/30">
+        <svg viewBox="0 0 100 100" className="w-full h-full p-1" xmlns="http://www.w3.org/2000/svg">
+          <path d="M50 15 L80 30 V55 C80 73 67 88 50 93 C33 88 20 73 20 55 V30 Z" fill="none" stroke="#10b981" strokeWidth="6" strokeLinejoin="round"/>
+          <circle cx="50" cy="50" r="10" fill="#06b6d4"/>
+          <path d="M50 60 V72" stroke="#06b6d4" strokeWidth="5" strokeLinecap="round"/>
         </svg>
-        {/* Glow effect */}
-        <div className="absolute inset-0 bg-gradient-to-t from-transparent to-white/20"></div>
       </div>
       
       {!collapsed && (
         <div className="flex items-center gap-2">
-          <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-300 tracking-tight">
+          <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-cyan-400 tracking-tight">
             PayZK
           </span>
-          <span className="text-[9px] font-bold tracking-widest text-indigo-200 bg-indigo-900/50 border border-indigo-500/30 px-1.5 py-0.5 rounded-sm">
+          <span className="text-[9px] font-bold tracking-widest text-emerald-200 bg-emerald-950/50 border border-emerald-500/30 px-1.5 py-0.5 rounded-sm">
             PROTOCOL
           </span>
         </div>
