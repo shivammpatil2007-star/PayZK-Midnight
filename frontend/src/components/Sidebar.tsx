@@ -9,10 +9,10 @@ interface SidebarProps {
 
 export const Sidebar: React.FC<SidebarProps> = ({ currentView, setCurrentView }) => {
   const navItems = [
-    { id: 'overview', label: 'Overview Dashboard', icon: <LayoutDashboard size={20} /> },
-    { id: 'employee', label: 'Employee Studio', icon: <UserCheck size={20} /> },
-    { id: 'verifier', label: 'Verifier Suite', icon: <ShieldCheck size={20} /> },
-    { id: 'ledger', label: 'Proof Audit Ledger', icon: <History size={20} /> },
+    { id: 'overview', label: 'Overview Dashboard', icon: LayoutDashboard },
+    { id: 'employee', label: 'Employee Studio', icon: UserCheck },
+    { id: 'verifier', label: 'Verifier Suite', icon: ShieldCheck },
+    { id: 'ledger', label: 'Proof Audit Ledger', icon: History },
   ];
 
   return (
@@ -28,14 +28,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, setCurrentView })
             <button
               key={item.id}
               onClick={() => setCurrentView(item.id)}
-              className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-left ${
+              className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${
                 isActive 
-                  ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-inner' 
-                  : 'text-gray-400 hover:text-white hover:bg-slate-800/50 border border-transparent'
+                  ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 shadow-md shadow-emerald-950/30' 
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
               }`}
             >
-              {item.icon}
-              <span className="font-medium text-sm">{item.label}</span>
+              <item.icon className={`w-5 h-5 ${isActive ? 'text-emerald-400' : 'text-slate-400'}`} />
+              <span>{item.label}</span>
             </button>
           )
         })}
