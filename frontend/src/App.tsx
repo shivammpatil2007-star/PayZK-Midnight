@@ -32,7 +32,7 @@ function App() {
           <div className="max-w-6xl mx-auto">
             {currentView === 'overview' && (
               <div className="glass-panel p-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                <h2 className="text-2xl font-bold mb-6">Welcome to PayZK</h2>
+                <h2 className="text-3xl font-black mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-emerald-200 to-emerald-500 drop-shadow-lg tracking-tight">Welcome to PayZK</h2>
                 <OverviewMetrics />
               </div>
             )}
